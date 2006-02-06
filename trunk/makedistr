@@ -1,0 +1,131 @@
+#!/bin/bash
+
+###############################################################################
+# This script generates a distribution package in 'distr' directory. If this  #
+# directory doesn't exist it will be created. Makedistr script has only one   #
+# argument describing distribution version. Example of usage:                 #
+# ./makedistr 0.4.0 generates a distribution package 'astral3d-0.4.0.tar.gz'. #
+# !!! Run aclocal, autoconf and automake before running this script           #
+#                                                                             #
+# (C) Pavel Stupka 2005                                                       #
+###############################################################################
+
+# script usage
+if [ $# != "1" ]; then
+    echo "Usage: makedistr version (example: ./makedistr 0.4.0)"
+    exit 1
+fi
+
+echo
+echo "!!! Run aclocal, autoconf and automake before running this script"
+echo
+
+# 'distr' directory where all distribution versions go
+if ! cd distr 2>/dev/null; then
+    if ! mkdir distr 2>/dev/null; then
+        echo "Error! Can't create directory 'distr'" >&2
+        exit 1
+    fi
+    cd distr
+fi
+
+# final directory and version directory
+DISTR="distr/astral3d-$1"
+FILE="astral3d-$1"
+
+# remove version directory if exists (we are in 'distr' directory)
+if ! rm -fr $FILE 2>/dev/null; then
+    echo "Error! Can't remove directory $FILE" >&2
+    exit 1
+fi
+
+# remove distribution package (we are in 'distr' directory)
+if ! rm -fr $FILE.tar.gz 2>/dev/null; then
+    echo "Error! Can't remove file $FILE.tar.gz" >&2
+    exit 1
+fi
+
+# creates a new distribution directory (we are in 'distr' directory)
+if ! mkdir $FILE 2>/dev/null; then
+    echo "Error! Can't create directory $DISTR" >&2
+    exit 1
+fi
+
+# we are in 'distr' directory
+cd - >&/dev/null
+
+# generates the documentation
+echo -n "Generating documentation"
+doxygen >&/dev/null
+echo -e "\t\t\tDONE"
+
+# copies the documentation
+echo -n "Copying documentation"
+cp -R doc $DISTR/
+echo -e "\t\t\t\tDONE"
+
+# copies the source
+echo -n "Copying source files"
+mkdir $DISTR/src/
+cp src/*.h $DISTR/src/
+cp src/astral3d $DISTR/src/
+cp src/*.cpp $DISTR/src/
+cp src/Makefile.in $DISTR/src/
+cp src/Makefile.am $DISTR/src/
+echo -e "\t\t\t\tDONE"
+
+# copies file
+echo -n "Copying basic files"
+cp aclocal.m4 $DISTR/
+cp AUTHORS $DISTR/
+cp config.guess $DISTR/
+cp ltmain.sh $DISTR/
+cp config.h.in $DISTR/
+cp config.sub $DISTR/
+cp configure $DISTR/
+cp configure.ac $DISTR/
+cp COPYING $DISTR/
+cp depcomp $DISTR/
+cp Doxyfile $DISTR/
+cp ChangeLog $DISTR/
+cp INSTALL $DISTR/
+cp install-sh $DISTR/
+cp libtool  $DISTR/
+cp makedistr $DISTR/
+cp Makefile.am $DISTR/
+cp Makefile.in $DISTR/
+cp missing $DISTR/
+cp NEWS $DISTR/
+cp README $DISTR/
+echo -e "\t\t\t\tDONE"
+
+mkdir $DISTR/examples
+echo -n "Copying example files"
+cp examples/console.cpp $DISTR/examples/
+cp examples/camera.cpp $DISTR/examples/
+cp examples/level.cpp $DISTR/examples/
+cp examples/text.cpp $DISTR/examples/
+cp examples/console.bmp $DISTR/examples/
+cp examples/floor.bmp $DISTR/examples/
+cp examples/font.bmp $DISTR/examples/
+cp examples/icon.bmp $DISTR/examples/
+cp examples/level.lev $DISTR/examples/
+cp examples/text.des $DISTR/examples/
+cp examples/wall.tga $DISTR/examples/
+cp examples/Makefile $DISTR/examples/
+echo -e "\t\t\t\tDONE"
+
+cd distr
+
+# creates a .tar.gz distribution
+echo "Creating $FILE.tar.gz"
+
+tar cf $FILE.tar $FILE
+gzip $FILE.tar
+
+# we are in 'distr' directory
+cd - >&/dev/null
+
+echo
+echo "See 'distr' directory for results"
+echo

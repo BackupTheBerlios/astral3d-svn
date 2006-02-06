@@ -1,0 +1,83 @@
+-------------------------------------------------------------------------------
+                     Astral3D installation instructions
+-------------------------------------------------------------------------------
+
+1.) Supported UNIX Platforms
+2.) Requirements
+3.) Setting up the Installation
+4.) Installation
+5.) Usage
+
+-------------------------------------------------------------------------------
+1. SUPPORTED UNIX PLATFORMS
+
+Currently is supported only Linux platform.
+
+-------------------------------------------------------------------------------
+2. REQUIREMENTS
+
+Astral3D needs these development libraries: OpenGL
+                                            OpenGL Utilities (GLU)
+                                            SDL
+                                            SDL_Image
+
+-------------------------------------------------------------------------------
+3. SETTING UP THE INSTALLATION
+
+Before the installation you have to specify directories where header files and
+library files of libraries above are located. Usually you allready have
+OpenGL and SDL libraries installed with your distribution. Therefore there
+can be problems with finding some libraries outside default path dir settings.
+
+For example: You have installed SDL_Image library to your home directory.
+             You propably need run this:
+
+                export CPPFLAGS="$CPPFLAGS -I$HOME/include/SDL/"
+                export LDFLAGS="$LDFLAGS -L$HOME/lib/"
+
+             before running configure script.
+
+Notice that although you have OpenGL libary installed in your system you
+sometime need specify its library path:
+
+                export LDFLAGS="$LDFLAGS -L/usr/X11R6/lib/"
+
+-------------------------------------------------------------------------------
+4. INSTALLATION
+
+You can run root or user installation. If you run root installation
+the library (libastral3d.a) in installed to /usr/local/lib and header files
+are copied to /usr/local/include. If you run user installation the
+libary is installed to the lib directory in the path given by --prefix
+argument of the configure script. Header files are copied to the
+include directory also in the path given by the --prefix argument.
+
+root installation:
+
+    ./configure
+    make
+    su -c "make install"
+
+non root installation (user installation):
+
+    ./configure --prefix=$HOME
+    make
+    make install
+
+Run ./configure --help for more info.
+
+-------------------------------------------------------------------------------
+5. USAGE
+
+This section describes how to use Astral3D in your projects.
+
+    How to compile 'example.cpp' using Astral3D:
+
+ -> root installation, SDL_image in the system:
+    g++ -o example example.cpp -L/usr/X11R6/lib -lGL -lGLU -lm `sdl-config --cflags --libs` -lSDL_image -lastral3d
+
+ -> user installation, SDL_image in the system:
+    g++ -o example example.cpp -I$HOME/include -L$HOME/lib -L/usr/X11R6/lib -lGL -lGLU -lm `sdl-config --cflags --libs` -lSDL_image -lastral3d
+
+ -> user installation, SDL_image in the home directory:
+    g++ -o example example.cpp -I$HOME/include/SDL -I$HOME/include -L$HOME/lib -L/usr/X11R6/lib -lGL -lGLU -lm `sdl-config --cflags --libs` -lSDL_image -lastral3d
