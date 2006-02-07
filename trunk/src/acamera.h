@@ -91,7 +91,6 @@ class ACamera
      */
     ACamera(AVector vec = AVector(0.0, 0.0, 0.0));
 
-
     /**
      * Sets the camera to the scene.
      * This method updates scene according to the camera view. It should be
@@ -172,23 +171,55 @@ class ACamera
      */
     void     turn(int dir, double angle);
 
+    /** Moves the camera.
+     * @see move */
     void     moveForward()    { move(FORWARD); }
+    /** Moves the camera.
+     * @see move */
     void     moveBackward()   { move(BACKWARD); }
+    /** Moves the camera.
+     * @see move */
     void     moveLeft()       { move(LEFT); }
+    /** Moves the camera.
+     * @see move */
     void     moveRight()      { move(RIGHT); }
+    /** Moves the camera.
+     * @see move */
     void     moveUp()         { move(UP); }
+    /** Moves the camera.
+     * @see move */
     void     moveDown()       { move(DOWN); }
 
+    /** Moves the camera.
+     * @see step */
     void     stepForward()    { step(FORWARD); }
+    /** Moves the camera.
+     * @see step */
     void     stepBackward()   { step(BACKWARD); }
+    /** Moves the camera.
+     * @see step */
     void     stepLeft()       { step(LEFT); }
+    /** Moves the camera.
+     * @see step */
     void     stepRight()      { step(RIGHT); }
+    /** Moves the camera.
+     * @see step */
     void     stepUp()         { step(UP); }
+    /** Moves the camera.
+     * @see step */
     void     stepDown()       { step(DOWN); }
 
+    /** Rotates the camera.
+     * @see rotate */
     void     turnRight(double angle)      { turn(RIGHT, angle); }
+    /** Rotates the camera.
+     * @see rotate */
     void     turnLeft(double angle)       { turn(LEFT, angle); }
+    /** Rotates the camera.
+     * @see rotate */
     void     lookUp(double angle)         { turn(UP, angle); }
+    /** Rotates the camera.
+     * @see rotate */
     void     lookDown(double angle)       { turn(DOWN, angle); }
 
     /**
