@@ -77,7 +77,6 @@ echo -e "\t\t\t\tDONE"
 # copies file
 echo -n "Copying basic files"
 cp aclocal.m4 $DISTR/
-cp ltmain.sh $DISTR/
 cp AUTHORS $DISTR/
 cp config.guess $DISTR/
 cp config.h.in $DISTR/
@@ -92,6 +91,7 @@ cp INSTALL $DISTR/
 cp install-sh $DISTR/
 cp libtool  $DISTR/
 cp makedistr $DISTR/
+cp ltmain.sh $DISTR/
 cp Makefile.am $DISTR/
 cp Makefile.in $DISTR/
 cp missing $DISTR/
