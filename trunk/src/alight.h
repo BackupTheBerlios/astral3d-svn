@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file alight.h File defining ALight class.
+ * @file alight.h ALight class.
  */
 #ifndef ALIGHT_H
 #define ALIGHT_H
@@ -33,7 +33,7 @@
 namespace astral3d {
 
 /**
- * Class for displaying lights.
+ * Class for light management.
  * This class provides basic functions for displaying lights in the scene.
  */
 class ALight

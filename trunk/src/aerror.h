@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file aerror.h File for managing error messages in Astral3D.
+ * @file aerror.h AError class.
  */
 #ifndef AERROR_H
 #define AERROR_H
@@ -33,7 +33,7 @@
 namespace astral3d {
 
 /**
- * Struct containing error description.
+ * Structure containing error description.
  * This class contains 3 strings. errorDescription is the description of the
  * error, senderFunction is the description of the function that sends this
  * error and failedFunction is the function that failed.

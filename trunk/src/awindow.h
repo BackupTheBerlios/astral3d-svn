@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file awindow.h File defining AWindow class.
+ * @file awindow.h AWindow class.
  */
 
 #ifndef AWINDOW_H
@@ -52,8 +52,8 @@ namespace astral3d {
 void appExit(int exitCode);
 
 /**
- * Class for manipulating with windows.
- * This class is the interface to the application. It can handle system events
+ * Class for manipulating the windows.
+ * This class is the interface into the application. It can handle system events
  * such as pressing the key or moving the mouse. Typical use of the AWindow
  * class is to create your own class inheritting from AWindow class and
  * override some important methods. These methods are virtual in AWindow class.

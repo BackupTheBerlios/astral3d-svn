@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file alevel.h File defining ALevel class.
+ * @file alevel.h ALevel class.
  */
 #ifndef ALEVEL_H
 #define ALEVEL_H
@@ -50,7 +50,7 @@ typedef GLuint* pGLuint;
 //-----------------------------------------------------------------------------
 
 /**
- * Class for loading and rendering a level.
+ * Class for loading and rendering levels.
  * This class is used for loading and rendering a level and provides
  * the basic interface for collision detection and response with the camera (ACamera
  * class).
@@ -78,7 +78,7 @@ class ALevel
         // max depth of recursion when making collision detection
         int collisionRecursionDepth;
 
-        // gravitation
+        // gravity
         AVector gravityVector;
 
         // center of the sphere which we do collision detection tests in
@@ -90,7 +90,7 @@ class ALevel
         // enables collision detection only in the given sphere
         bool sphere;
 
-        // enables gravitation
+        // enables gravity
         bool gravity;
 
         // create lists of triangles according to the textures
@@ -227,7 +227,7 @@ class ALevel
         /**
          * Returns new vector of movement after the collision detection and response.
          * This metod returns new vector (AVector) of movement in 3D space according to
-         * the gravitation, collision detection and response.
+         * the gravity, collision detection and response.
          * @param pos Starting position of the move
          * @return New vector of movement after the collision detection and response
          * @see setEllipsoid
@@ -240,7 +240,7 @@ class ALevel
         /**
          * Returns the position after the collision detection and response.
          * This metod returns new position (AVector) in 3D space according to
-         * the gravitation, collision detection and response.
+         * the gravity, collision detection and response.
          * @param pos Starting position of the move
          * @return New position after the collision detection and response
          * @see setEllipsoid
@@ -257,15 +257,15 @@ class ALevel
          * against.
          * @param eRadius Vector (AVector) describing the ellipsoid. X, Y and Z
          *                values of the vector characterize radiuses of the
-         *                ellipsoid. X and Z value should be equal but Y should be
+         *                ellipsoid. X and Z values should be equal but Y should be
          *                bigger - than the ellipsoid will look like a human body.
-         *                If X=Y=Z than we have a collision sphere.
+         *                If X=Y=Z than we get a collision sphere.
          */
         inline void setEllipsoid(const AVector &eRadius);
 
         /**
-         * Sets the level gravitation.
-         * This method sets the level gravitation.
+         * Sets the level gravity.
+         * This method sets the level gravity.
          * @param gravity Vector (AVector) describing the level gravity
          * @see getGravityPosition
          * @see getGravityDirection
@@ -273,21 +273,21 @@ class ALevel
         inline void setGravity(const AVector &gravity);
 
         /**
-         * Enables gravitation.
-         * This method enables gravitation in the level.
+         * Enables gravity.
+         * This method enables gravity in the level.
          */
         void enableGravity() { this->gravity = true; }
 
         /**
-         * Disables gravitation.
-         * This method disables gravitation in the level.
+         * Disables gravity.
+         * This method disables gravity in the level.
          */
         void disableGravity() { this->gravity = false; }
 
         /**
-         * Returns 'true' if gravitation is enabled.
-         * This method returns 'true' if gravitation is enabled.
-         * @return 'true' if gravitation is enabled
+         * Returns 'true' if the gravity is enabled.
+         * This method returns 'true' if the gravity is enabled.
+         * @return 'true' if the gravity is enabled
          * @see enableGravity()
          * @see disableGravity()
          * @see setGravity()
@@ -347,14 +347,14 @@ class ALevel
 
         /**
          * Adds the triangle (ATrianagle) to the level.
-         * This method adds new triangle to the level.
+         * This method adds the new triangle to the level.
          * @param triangle New triangle to add
          * @see removeTriangle
          */
         bool addTriangle(ATriangle triangle);
 
         /**
-         * Removes triangle from the level.
+         * Removes the triangle from the level.
          * This method removes the triangle from the level. Actually this
          * method only sets triangle validity to 'false' and removes it from
          * the list of triangles. Triangle is still in the memory but isn't
@@ -399,7 +399,7 @@ void ALevel::setEllipsoid(const AVector &eRadius)
 }
 
 //-----------------------------------------------------------------------------
-//  sets the gravitation
+//  sets the gravity
 //-----------------------------------------------------------------------------
 
 void ALevel::setGravity(const AVector &gravity)

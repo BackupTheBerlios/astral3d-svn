@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -25,7 +25,7 @@
 ******************************************************************************/
 
 /**
- * @file a3dsmodel.h File containing A3DSModel class.
+ * @file a3dsmodel.h A3DSModel class.
  */
 #ifndef A3DSMODEL_H
 #define A3DSMODEL_H
@@ -59,7 +59,7 @@ namespace astral3d {
 #define MAXTEXTURE 100
 
 /**
- * Class for displaying 3DS models.
+ * Class for loading and rendering 3DS models.
  * This class is the interface for loading and displaying 3DS file formats.
  */
 class A3DSModel
@@ -95,7 +95,7 @@ class A3DSModel
     bool load(char* filename, char *texturePath);
     /**
      * Draws the model.
-     * This method draws the loaded model on the screen. Model has to be loaded
+     * This method draws loaded model to the screen. Model has to be loaded
      * first.
      * @see load
      */

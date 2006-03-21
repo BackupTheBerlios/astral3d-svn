@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file atext.h File defining AText2D class.
+ * @file atext.h AText2D class.
  */
 #ifndef ATEXT_H
 #define ATEXT_H
@@ -51,7 +51,7 @@ namespace astral3d {
 //-----------------------------------------------------------------------------
 
 /**
- * Class for drawing a 2D text.
+ * Class for text output.
  * This class serves as the interface for text output.
  */
 class AText2D
@@ -76,7 +76,7 @@ class AText2D
          * Destructor.
          * Destructor.
          */
-        ~AText2D() { this->killFont(); }
+        ~AText2D() { destroy(); }
 
         /**
          * Creates the font.
@@ -94,11 +94,12 @@ class AText2D
          */
         bool buildFont(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
         /**
-         * Destroys the font.
+         * Destroys the font (deprecated).
          * This method frees the memory and destroys the font.
+         * @see destroy
          * @see buildFont
          */
-        void destroyFont() { killFont(); }
+        void destroyFont() { destroy(); }
         /**
          * Associates the text string with the font.
          * This method sets the text description of the font. The text is read
@@ -164,11 +165,18 @@ class AText2D
         int getWindowHeight()  { return windowHeight; }
 
         /**
+         * Destroys the font (deprecated).
+         * This method frees the memory and destroys the font.
+         * @see destroy
+         * @see buildFont
+         */
+        void killFont() { destroy(); }
+        /**
          * Destroys the font.
          * This method frees the memory and destroys the font.
          * @see buildFont
          */
-        inline void killFont();
+        inline void destroy();
 };
 
 //-----------------------------------------------------------------------------
@@ -182,7 +190,7 @@ void AText2D::setSize(int sizeW, int sizeH, int translate)
     this->translate = translate;
 }
 
-void AText2D::killFont()
+void AText2D::destroy()
 {
     deleteTexture(&(this->texture));
 }

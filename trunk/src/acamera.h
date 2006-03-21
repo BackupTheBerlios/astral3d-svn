@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+  * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file acamera.h File defining ACamera class.
+ * @file acamera.h ACamera class.
  */
 #ifndef ACAMERA_H
 #define ACAMERA_H
@@ -63,10 +63,10 @@ namespace astral3d {
 //-----------------------------------------------------------------------------
 
 /**
- * Class for manupulating with the camera in the 3D space.
- * This class is the interface for manupulating with the camera in the 3D space.
- * It allows keyboard and mouse input. ACamera class is also designed to do
- * collision detection with the given ALevel class.
+ * Class for moving the camera in the 3D space.
+ * This class provides camera movement in the 3D space.
+ * ACamera is also designed to do collision detection against
+ * the level represented by the ALevel class.
  */
 class ACamera
 {
@@ -85,42 +85,49 @@ class ACamera
   public:
     /**
      * Constructor.
-     * Constructor sets the camera position to the starting position.
-     * Default starting position is AVector(0.0, 0.0, 0.0).
-     * @param vec Starting camera position
+     * Constructor sets the camera position to the start position.
+     * Default start position is AVector(0.0, 0.0, 0.0).
+     * @param vec Camera start position
      */
     ACamera(AVector vec = AVector(0.0, 0.0, 0.0));
 
     /**
      * Sets the camera to the scene.
-     * This method updates scene according to the camera view. It should be
-     * called before rendering methods.
+     * This method updates the scene view according to the camera view.
+     * It should be called before rendering the scene.
      */
     inline   void    set();
     /**
      * Updates camera position.
-     * This method updates camera position by summing current camera position
-     * and the given vector (AVector).
+     * This method updates camera position by adding the given vector to the
+     * current camera position.
      * @param vec Vector (AVector) to add
      */
     inline   void    update(AVector vec);
+    /**
+     * Sets the camera position (deprecated).
+     * This method sets the camera position in the scene.
+     * @param vec New camera position (AVector)
+     * @see setPosition
+     */
+    inline   void    setPos(AVector vec);
     /**
      * Sets the camera position.
      * This method sets the camera position in the scene.
      * @param vec New camera position (AVector)
      */
-    inline   void    setPos(AVector vec);
+    inline   void    setPosition(AVector vec);
     /**
-     * Sets the camera movement speed.
-     * This method sets the movement speed of the camera. Default speed is 1.
-     * @param speed New camera movement speed.
+     * Sets the speed of mevement.
+     * This method sets the speed of camera movement. Default speed is 1.
+     * @param speed New speed of movement.
      * @see getSpeed
      */
     inline   void    setSpeed(double speed);
     /**
-     * Returns the camera movement speed.
-     * This method returns the camera movement speed.
-     * @return Movement speed of the camera
+     * Returns the speed of movement.
+     * This method returns the speed of camera movement.
+     * @return Speed of movement of the camera
      * @see setSpeed
      */
     inline   double  getSpeed();
@@ -246,7 +253,7 @@ class ACamera
     void     setLevel(ALevel *level) { this->level = level; }
     /**
      * Moves the camera according to the gravitation of the level.
-     * This method moves the camera according to the gravitation of the level.
+     * This method moves the camera according to the gravity of the level.
      * @see setLevel
      * @see enableCollision
      * @see disableCollision
@@ -289,17 +296,27 @@ class ACamera
     double   getMouseSensitivity() { return sensitivity; }
 
     /**
-     * Main mouse procedure.
-     * This method should be called always in the main loop of the program.
-     * It sets camera position according to the mouse movement.
+     * Main mouse procedure (deprecated).
+     * This method should be called in the main loop of the program.
+     * It sets new camera position according to the mouse movement.
      * @see setWindow
      * @see enableMouse
      */
     void     mouseProc();
+
+    /**
+     * Main mouse procedure.
+     * This method should be called in the main loop of the program.
+     * It sets new camera position according to the mouse movement.
+     * @see setWindow
+     * @see enableMouse
+     */
+    void     mouseProcedure() { this->mouseProc(); }
+
     /**
      * Associates the window with the camera.
-     * This method sets the windows to the camera. You have to call this method
-     * before calling ACamera::mouseProc method.
+     * This method sets the windows to the camera. You should call this method
+     * before calling ACamera::mouseProcedure.
      * @param win Window (AWindow) to accosiate
      * @see mouseProc
      * @see enableMouse
@@ -356,6 +373,15 @@ void ACamera::setPos(AVector a)
     this->front.z -= 1.0;
     this->top.y += 1.0;
     this->right.x += 1.0;
+}
+
+//-----------------------------------------------------------------------------
+// sets the camera position
+//-----------------------------------------------------------------------------
+
+void ACamera::setPosition(AVector a)
+{
+    this->setPos(a);
 }
 
 //-----------------------------------------------------------------------------

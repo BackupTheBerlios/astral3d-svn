@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -27,7 +27,7 @@
 ******************************************************************************/
 
 /**
- * @file acollision.h File defining classes and functions for the collision detection.
+ * @file acollision.h Collision detection functions.
  */
 #ifndef ACOLLISION_H
 #define ACOLLISION_H
@@ -53,12 +53,11 @@ namespace astral3d {
 //-----------------------------------------------------------------------------
 
 /**
- * Class containing information about the collision.
- * This class contains information about the collision in 3D space.
+ * Structure containing information about the collision.
+ * This structure contains information about the collision in 3D space.
  */
-class ACollisionPacket
+struct ACollisionPacket
 {
-    public:
         // radius of the ellipsoid
         AVector eRadius;
 
@@ -78,7 +77,7 @@ class ACollisionPacket
 
         /**
          * Prints the info.
-         * Prints the information to the standart output
+         * Prints information to the standart output
          */
         void print();
 };
@@ -88,10 +87,10 @@ class ACollisionPacket
 //-----------------------------------------------------------------------------
 
 /**
- * Class describing a plane in the 3D space.
- * This class contains an information to describe a plane in the 3D space.
+ * Structure describing a plane in the 3D space.
+ * This structure contains information to describe a plane in the 3D space.
  */
-class APlane
+struct APlane
 {
     public:
         double equation[4];

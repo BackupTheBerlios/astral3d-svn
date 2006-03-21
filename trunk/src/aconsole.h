@@ -1,5 +1,5 @@
  /*****************************************************************************
- * Astral3D is a 3D engine based on OpenGL and SDL.                           *
+ * Astral3D -- 3D engine based on OpenGL and SDL.                             *
  * Copyright (C) 2005 Pavel Stupka <pavel.stupka@gmail.com>                   *
  *                                                                            *
  * This library is free software; you can redistribute it and/or              *
@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 /**
- * @file aconsole.h File defining AConsole class.
+ * @file aconsole.h AConsole class.
  */
 #ifndef ACONSOLE_H
 #define ACONSOLE_H
@@ -182,14 +182,24 @@ class AConsole
        */
       void clear();
       /**
-       * Sets the callback function.
+       * Sets the callback function (deprecated).
        * This method sets the callback function. This function is called when 'Enter'
-       * key is pressed in the console. Argument for this function is the
-       * string containing a text written to the console by the user.
+       * key is pressed in the console. Parameter of the callback function is the
+       * string containing a text written to the console by user.
        * @param *func Pointer to the function with 'void' return value and '*char'
-       * argument
+       * parameter
+       * @see setCallback
        */
       void setFunc(void (*func)(char *)) { this->func = func; }
+      /**
+       * Sets the callback function.
+       * This method sets the callback function. This function is called when 'Enter'
+       * key is pressed in the console. Parameter of the callback function is the
+       * string containing a text written to the console by user.
+       * @param *func Pointer to the function with 'void' return value and '*char'
+       * parameter
+       */
+      void setCallback(void (*func)(char *)) { this->func = func; }
 
       /**
        * Shows the console.
