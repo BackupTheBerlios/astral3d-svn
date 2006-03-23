@@ -26,6 +26,26 @@ using namespace astral3d;
 //  konstruktor
 //-----------------------------------------------------------------------------
 
+ALevel::ALevel(char *filename, char *texturePath)
+{
+    *this = ALevel();
+    load(filename, texturePath);
+}
+
+//-----------------------------------------------------------------------------
+//  konstruktor
+//-----------------------------------------------------------------------------
+
+ALevel::ALevel(Model3D *model)
+{
+    *this = ALevel();
+    buildFromModel(model);
+}
+
+//-----------------------------------------------------------------------------
+//  konstruktor
+//-----------------------------------------------------------------------------
+
 ALevel::ALevel()
 {
     this->triangles = NULL;
@@ -45,7 +65,7 @@ ALevel::ALevel()
 // nahrava level s tim, ze textury hleda v adresari texturePath
 //-----------------------------------------------------------------------------
 
-bool ALevel::load(char *filename, char *texturePath)
+ALevel *ALevel::load(char *filename, char *texturePath)
 {
     // otevreme soubor
     ifstream file;
@@ -58,7 +78,8 @@ bool ALevel::load(char *filename, char *texturePath)
         foo << "ALevel::load(\""<<filename<<"\", \""<<texturePath<<"\")";
         bar << "ifstream.open("<<filename<<")";
         setAstral3DError("Can't open file with the level", foo.str(), bar.str());
-        return false;
+
+        throw AReadFileException("ALevel *ALevel::load(char *filename, char *texturePath)");
     }
 
     // nacteni poctu textur
@@ -73,7 +94,8 @@ bool ALevel::load(char *filename, char *texturePath)
         foo << "ALevel::load(\""<<filename<<"\", \""<<texturePath<<"\")";
         bar << "string * ... = new string["<<numOfTextures<<"]";
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::load(char *filename, char *texturePath)");
     }
 
     // alokujeme pamet pro textury
@@ -85,7 +107,8 @@ bool ALevel::load(char *filename, char *texturePath)
         foo << "ALevel::load(\""<<filename<<"\", \""<<texturePath<<"\")";
         bar << "GLuint * ... = new GLuint["<<numOfTextures<<"]";
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::load(char *filename, char *texturePath)");
     }
 
     // nacteni a vytvoreni textur levelu
@@ -108,7 +131,8 @@ bool ALevel::load(char *filename, char *texturePath)
         if(!loadTextureMipMap(buffer, &(this->textures[texNumber])))
         {
             this->destroy();
-            return false;
+
+            throw ATextureException("ALevel *ALevel::load(char *filename, char *texturePath)");
         }
     }
 
@@ -126,7 +150,8 @@ bool ALevel::load(char *filename, char *texturePath)
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
 
         this->destroy();
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::load(char *filename, char *texturePath)");
     }
 
     // nacteni a vytvoreni trojuhelniku levelu
@@ -168,7 +193,12 @@ bool ALevel::load(char *filename, char *texturePath)
     file.close();
 
     // finally we create triangle lists
-    return createLists();
+    if (!createLists())
+    {
+        throw AException("ALevel *ALevel::load(char *filename, char *texturePath)");
+    }
+
+    return this;
 }
 
 //-----------------------------------------------------------------------------
@@ -352,7 +382,7 @@ bool ALevel::addTriangle(ATriangle triangle)
 // ulozi informace o seznamu trojuhelniku podle textur
 //-----------------------------------------------------------------------------
 
-bool ALevel::saveListOfTriangles(char *filename)
+void ALevel::saveListOfTriangles(char *filename)
 {
     ofstream file;
     file.open(filename);
@@ -365,7 +395,7 @@ bool ALevel::saveListOfTriangles(char *filename)
         bar << "ofstream.open(" << filename << ")";
         setAstral3DError("Can't open file", foo.str(), bar.str());
 
-        return false;
+        throw AWriteFileException("void ALevel::saveListOfTriangles(char *filename)");
     }
 
     // pro kazdou texturu ulozime seznam trojuhelniku, ktere ji obsahuji
@@ -381,15 +411,13 @@ bool ALevel::saveListOfTriangles(char *filename)
 
         file << endl << endl;
     }
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------
 // ulozi level do souboru
 //-----------------------------------------------------------------------------
 
-bool ALevel::save(char *filename)
+void ALevel::save(char *filename)
 {
     ofstream file;
     file.open(filename);
@@ -402,7 +430,7 @@ bool ALevel::save(char *filename)
         bar << "ofstream.open(\"" << filename << "\")";
         setAstral3DError("Can't open file", foo.str(), bar.str());
 
-        return false;
+        throw AWriteFileException("void ALevel::save(char *filename)");
     }
 
     // ulozime pocet textur
@@ -466,8 +494,6 @@ bool ALevel::save(char *filename)
     }
 
     file.close();
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -861,7 +887,7 @@ void ALevel::checkCollision()
 // builds the level from 3DS file being loaded as the A3DSModel class
 //-----------------------------------------------------------------------------
 
-bool ALevel::buildFromModel(A3DSModel *model)
+ALevel *ALevel::buildFromModel(Model3D *model)
 {
     // if the level allready exists we destroy it
     destroy();
@@ -876,7 +902,7 @@ bool ALevel::buildFromModel(A3DSModel *model)
         bar << "A3DModel::get3DModel()";
         setAstral3DError("Can't get pointer to A3DModel class", foo.str(), bar.str());
 
-        return false;
+        throw AMemoryAllocException("ALevel *ALevel::buildFromModel(Model3D *model)");
     }
 
     // first we find total count of textures
@@ -907,7 +933,8 @@ bool ALevel::buildFromModel(A3DSModel *model)
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
 
         destroy();
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::buildFromModel(Model3D *model)");
     }
 
     // we create array for texture names
@@ -921,7 +948,8 @@ bool ALevel::buildFromModel(A3DSModel *model)
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
 
         destroy();
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::buildFromModel(Model3D *model)");
     }
 
     // than we load textures
@@ -950,7 +978,7 @@ bool ALevel::buildFromModel(A3DSModel *model)
             if(!loadTextureMipMap(buf, &(textures[ID])))
             {
                 this->destroy();
-                return false;
+                throw ATextureException("ALevel *ALevel::buildFromModel(Model3D *model)");
             }
         }
     }
@@ -981,7 +1009,8 @@ bool ALevel::buildFromModel(A3DSModel *model)
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
 
         destroy();
-        return false;
+
+        throw AMemoryAllocException("ALevel *ALevel::buildFromModel(Model3D *model)");
     }
 
     // now we load all triangles
@@ -1037,7 +1066,12 @@ bool ALevel::buildFromModel(A3DSModel *model)
         }
     }
 
-    return createLists();
+    if (!createLists())
+    {
+        throw AException("ALevel *ALevel::buildFromModel(Model3D *model)");
+    }
+
+    return this;
 }
 
 //-----------------------------------------------------------------------------

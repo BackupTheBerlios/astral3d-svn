@@ -92,7 +92,7 @@ namespace astral3d {
 //-----------------------------------------------------------------------------
 // 3D vector
 //-----------------------------------------------------------------------------
-typedef struct AVector3
+struct AVector3
 {
     float x, y, z;
 
@@ -104,7 +104,7 @@ typedef struct AVector3
     AVector3 operator-(AVector3 vVector) {return AVector3(x-vVector.x, y-vVector.y, z-vVector.z);}
     AVector3 operator*(float number)     {return AVector3(x*number, y*number, z*number);}
     AVector3 operator/(float number)     {return AVector3(x/number, y/number, z/number);}
-}AVector3;
+};
 
 //-----------------------------------------------------------------------------
 // 2D vector

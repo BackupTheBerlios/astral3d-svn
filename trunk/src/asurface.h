@@ -114,7 +114,7 @@ class ASurface
          * @param imageFilename Image to load (BMP, TGA, PNG, JPEG)
          * @return 'true' if the image is loaded successfuly
          */
-        bool loadImage(char *imageFileName);
+        void loadImage(char *imageFileName);
 
         /**
          * Associates the surface with the window.
@@ -157,7 +157,7 @@ class ASurface
          *  <li>GL_ONE_MINUS_DST_ALPHA</li>
          * </ul>
          */
-        void setBlendFunc(GLenum sFactor, GLenum dFactor);
+        void setBlending(GLenum sFactor, GLenum dFactor);
 
         /**
          * Begin drawing.

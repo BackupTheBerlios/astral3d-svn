@@ -34,6 +34,7 @@
 
 #include "atexture.h"
 #include "aerror.h"
+#include "aexceptions.h"
 
 #ifdef WIN32
     #include <SDL.h>
@@ -52,7 +53,7 @@ namespace astral3d {
 
 /**
  * Class for text output.
- * This class serves as the interface for text output.
+ * This class handles text output.
  */
 class AText2D
 {
@@ -72,11 +73,15 @@ class AText2D
 
     public:
 
+        AText2D() {}
+
         /**
          * Destructor.
          * Destructor.
          */
         ~AText2D() { destroy(); }
+
+        AText2D(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
 
         /**
          * Creates the font.
@@ -92,14 +97,7 @@ class AText2D
          * @return 'true' if the font is successfuly created
          * @see destroyFont
          */
-        bool buildFont(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
-        /**
-         * Destroys the font (deprecated).
-         * This method frees the memory and destroys the font.
-         * @see destroy
-         * @see buildFont
-         */
-        void destroyFont() { destroy(); }
+        AText2D *build(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
         /**
          * Associates the text string with the font.
          * This method sets the text description of the font. The text is read
@@ -113,7 +111,7 @@ class AText2D
          * the font is loaded from the file.
          * @param filename File containing the font description
          */
-        bool loadString(char *filename);
+        std::string loadString(char *filename);
         /**
          * Sets the output size of characters.
          * This method sets the output size of characters and the size
@@ -164,13 +162,6 @@ class AText2D
          */
         int getWindowHeight()  { return windowHeight; }
 
-        /**
-         * Destroys the font (deprecated).
-         * This method frees the memory and destroys the font.
-         * @see destroy
-         * @see buildFont
-         */
-        void killFont() { destroy(); }
         /**
          * Destroys the font.
          * This method frees the memory and destroys the font.

@@ -44,6 +44,8 @@ ASurface::ASurface()
 
 ASurface::ASurface(char *imageFileName, AWindow *window, unsigned int alpha)
 {
+    *this = ASurface();
+
     loadImage(imageFileName);
     setWindow(window);
     setAlpha(alpha);
@@ -71,21 +73,23 @@ void ASurface::destroy()
 // loadImage
 //-----------------------------------------------------------------------------
 
-bool ASurface::loadImage(char *imageFileName)
+void ASurface::loadImage(char *imageFileName)
 {
     if(!loadTexture(imageFileName, &textureID))
-        return false;
+    {
+        throw ATextureException("void ASurface::loadImage(char *imageFileName)");
+    }
 
     SDL_Surface *image = NULL;
     if(!(image = IMG_Load(imageFileName)))
-        return false;
+    {
+        throw ATextureException("void ASurface::loadImage(char *imageFileName)");
+    }
 
     textureWidth = image->w;
     textureHeight = image->h;
 
     SDL_FreeSurface(image);
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -94,6 +98,10 @@ bool ASurface::loadImage(char *imageFileName)
 
 void ASurface::setWindow(AWindow *window)
 {
+    if (!window)
+    {
+        throw ANullPointerException("void ASurface::setWindow(AWindow *window)");
+    }
     this->window = window;
 }
 
@@ -103,6 +111,11 @@ void ASurface::setWindow(AWindow *window)
 
 void ASurface::setAlpha(unsigned int alpha)
 {
+    if (alpha < 0 || alpha > 255)
+    {
+        throw AIllegalArgumentException("void ASurface::setAlpha(unsigned int alpha)");
+    }
+
     this->alpha = 255 - alpha;
 }
 
@@ -183,7 +196,7 @@ void ASurface::draw(ARectangle target, ARectangle source)
 // blend function
 //-----------------------------------------------------------------------------
 
-void ASurface::setBlendFunc(GLenum sFactor, GLenum dFactor)
+void ASurface::setBlending(GLenum sFactor, GLenum dFactor)
 {
     sourceBlendFactor = sFactor;
     destinationBlendFactor = dFactor;

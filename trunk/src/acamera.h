@@ -36,9 +36,10 @@
 #endif
 
 #include "avector.h"
-#include "alevel.h"
+#include "aabstract.h"
 #include "awindow.h"
 #include "aerror.h"
+#include "aexceptions.h"
 
 /**
  * @namespace astral3d Astral3D namespace.
@@ -68,7 +69,7 @@ namespace astral3d {
  * ACamera is also designed to do collision detection against
  * the level represented by the ALevel class.
  */
-class ACamera
+class ACamera : public CollisionEllipsoid
 {
   private:
        AVector eye, front, top, right;        // position vectors
@@ -77,7 +78,6 @@ class ACamera
        double sensitivity;                    // mouse sensitivity
        bool mouse;                            // if the mouse is enabled
        bool collision;                        // if the collision detection is enabled
-       ALevel *level;                         // level for collision detection
        AWindow *window;                       // window which this camera is used in
 
        bool mouseProcedure(int winW, int winH, int mouseX, int mouseY, int *newX, int *newY);
@@ -90,6 +90,10 @@ class ACamera
      * @param vec Camera start position
      */
     ACamera(AVector vec = AVector(0.0, 0.0, 0.0));
+
+    ACamera(AWindow *window);
+
+    ACamera(AWindow *window, Level *level);
 
     /**
      * Sets the camera to the scene.
@@ -104,13 +108,6 @@ class ACamera
      * @param vec Vector (AVector) to add
      */
     inline   void    update(AVector vec);
-    /**
-     * Sets the camera position (deprecated).
-     * This method sets the camera position in the scene.
-     * @param vec New camera position (AVector)
-     * @see setPosition
-     */
-    inline   void    setPos(AVector vec);
     /**
      * Sets the camera position.
      * This method sets the camera position in the scene.
@@ -244,14 +241,6 @@ class ACamera
      */
     void     disableCollision() { this->collision = false; }
     /**
-     * Sets the level for collision detections.
-     * This method sets the camera level (ALevel) for collision detections.
-     * @param *level Level (ALevel) for collison detections
-     * @see enableCollision
-     * @see disableCollision
-     */
-    void     setLevel(ALevel *level) { this->level = level; }
-    /**
      * Moves the camera according to the gravitation of the level.
      * This method moves the camera according to the gravity of the level.
      * @see setLevel
@@ -296,32 +285,30 @@ class ACamera
     double   getMouseSensitivity() { return sensitivity; }
 
     /**
-     * Main mouse procedure (deprecated).
-     * This method should be called in the main loop of the program.
-     * It sets new camera position according to the mouse movement.
-     * @see setWindow
-     * @see enableMouse
-     */
-    void     mouseProc();
-
-    /**
      * Main mouse procedure.
      * This method should be called in the main loop of the program.
      * It sets new camera position according to the mouse movement.
      * @see setWindow
      * @see enableMouse
      */
-    void     mouseProcedure() { this->mouseProc(); }
+    void     mouseProcedure();
 
     /**
      * Associates the window with the camera.
      * This method sets the windows to the camera. You should call this method
      * before calling ACamera::mouseProcedure.
-     * @param win Window (AWindow) to accosiate
+     * @param window Window (AWindow) to accosiate
      * @see mouseProc
      * @see enableMouse
      */
-    void     setWindow(AWindow *win) { this->window = win; }
+    void     setWindow(AWindow *window)
+    {
+        if (!window)
+        {
+            throw ANullPointerException("void ACamera::setWidnow(AWindow *window)");
+        }
+        this->window = window;
+    }
 
     AVector  getEye() { return this->eye; }
     AVector  getFront() { return this->front; }
@@ -364,7 +351,7 @@ void ACamera::update(AVector a)
 // sets the camera position
 //-----------------------------------------------------------------------------
 
-void ACamera::setPos(AVector a)
+void ACamera::setPosition(AVector a)
 {
     this->eye = this->front = this->top = this->right = a;
 
@@ -373,15 +360,6 @@ void ACamera::setPos(AVector a)
     this->front.z -= 1.0;
     this->top.y += 1.0;
     this->right.x += 1.0;
-}
-
-//-----------------------------------------------------------------------------
-// sets the camera position
-//-----------------------------------------------------------------------------
-
-void ACamera::setPosition(AVector a)
-{
-    this->setPos(a);
 }
 
 //-----------------------------------------------------------------------------

@@ -56,7 +56,12 @@ class AVector
      * @param Y Y-position
      * @param Z Z-position
      */
-    AVector(double X=0, double Y=0, double Z=0):x(X),y(Y),z(Z){}
+    AVector(double x=0, double y=0, double z=0)
+    {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+    }
 
     /**
      * Sum.

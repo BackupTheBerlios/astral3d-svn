@@ -30,10 +30,19 @@ using namespace std;
 namespace astral3d {
 
 //-----------------------------------------------------------------------------
+// Constructor
+//-----------------------------------------------------------------------------
+
+A3DSModel::A3DSModel(char* filename, char *texturePath)
+{
+    load(filename, texturePath);
+}
+
+//-----------------------------------------------------------------------------
 // This method loads the 3DS file and creates all textures
 //-----------------------------------------------------------------------------
 
-bool A3DSModel::load(char* filename, char *texturePath)
+A3DSModel *A3DSModel::load(char* filename, char *texturePath)
 {
 
 #ifdef DEBUG
@@ -50,7 +59,8 @@ bool A3DSModel::load(char* filename, char *texturePath)
         foo << "A3DSModel::load(\""<<filename<<"\", "<<texturePath<<")";
         bar << "A3DModel * ... = new A3DModel";
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
-        return false;
+
+        throw AMemoryAllocException("A3DSModel *A3DSModel::load(char* filename, char *texturePath)");
     }
 
     // and new model loader
@@ -62,7 +72,8 @@ bool A3DSModel::load(char* filename, char *texturePath)
         foo << "A3DSModel::load(\""<<filename<<"\", "<<texturePath<<")";
         bar << "A3DSLoader * ... = new A3DSLoader";
         setAstral3DError("Can't allocate memory: operator 'new' failed", foo.str(), bar.str());
-        return false;
+
+        throw AMemoryAllocException("A3DSModel *A3DSModel::load(char* filename, char *texturePath)");
     }
 
 #ifdef DEBUG
@@ -76,7 +87,8 @@ bool A3DSModel::load(char* filename, char *texturePath)
     {
         delete mLoad3ds;
         delete m3DModel;
-        return false;
+
+        throw AException("A3DSModel *A3DSModel::load(char* filename, char *texturePath)");
     }
 
 #ifdef DEBUG
@@ -104,7 +116,7 @@ bool A3DSModel::load(char* filename, char *texturePath)
             if(foo == false)
             {
                 destroy();
-                return false;
+                throw ATextureException("A3DSModel *A3DSModel::load(char* filename, char *texturePath)");
             }
         }
         m3DModel->pMaterials[i].texureId = i;
@@ -114,7 +126,7 @@ bool A3DSModel::load(char* filename, char *texturePath)
     cout << "textury nacteny" << endl;
 #endif
 
-    return true;
+    return this;
 }
 
 //-----------------------------------------------------------------------------

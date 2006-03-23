@@ -39,6 +39,27 @@ void update_angle(double *uhel)
 // konstruktor
 //----------------------------------------------------------------------
 
+ACamera::ACamera(AWindow *window, Level *level)
+{
+    *this = ACamera();
+    setWindow(window);
+    setLevel(level);
+}
+
+//----------------------------------------------------------------------
+// konstruktor
+//----------------------------------------------------------------------
+
+ACamera::ACamera(AWindow *window)
+{
+    *this = ACamera();
+    setWindow(window);
+}
+
+//----------------------------------------------------------------------
+// konstruktor
+//----------------------------------------------------------------------
+
 ACamera::ACamera(AVector a)
 {
     this->eye = this->front = this->top = this->right = a;
@@ -61,7 +82,7 @@ ACamera::ACamera(AVector a)
 // procedura mysi
 //----------------------------------------------------------------------
 
-void ACamera::mouseProc()
+void ACamera::mouseProcedure()
 {
     if(window)
     {
@@ -78,6 +99,19 @@ void ACamera::mouseProc()
 
 void ACamera::move(int direction)
 {
+    switch (direction)
+    {
+        case FORWARD:
+        case BACKWARD:
+        case LEFT:
+        case RIGHT:
+        case UP:
+        case DOWN:
+            break;
+        default:
+            throw AIllegalArgumentException("void ACamera::move(int direction)");
+    }
+
     AVector v(0.0, 0.0, 0.0);
 
     if((direction & FORWARD) == FORWARD)
@@ -117,6 +151,19 @@ void ACamera::move(int direction)
 
 void ACamera::step(int direction)
 {
+    switch (direction)
+    {
+        case FORWARD:
+        case BACKWARD:
+        case LEFT:
+        case RIGHT:
+        case UP:
+        case DOWN:
+            break;
+        default:
+            throw AIllegalArgumentException("void ACamera::step(int direction)");
+    }
+
     AVector v(0.0, 0.0, 0.0);
 
     if((direction & FORWARD) == FORWARD)
@@ -214,6 +261,17 @@ bool ACamera::mouseProcedure(int w, int h, int mouseX, int mouseY,
 
 void ACamera::turn(int direction, double angle)
 {
+    switch (direction)
+    {
+        case LEFT:
+        case RIGHT:
+        case UP:
+        case DOWN:
+            break;
+        default:
+            throw AIllegalArgumentException("void ACamera::turn(int direction, double angle)");
+    }
+
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();

@@ -26,6 +26,16 @@ namespace astral3d {
 // konstruktor
 //-----------------------------------------------------------------------------
 
+AConsole::AConsole(AText2D *text2D, int x, int y, int w, int h, int border)
+{
+    *this = AConsole();
+    build(text2D, x, y, w, h, border);
+}
+
+//-----------------------------------------------------------------------------
+// konstruktor
+//-----------------------------------------------------------------------------
+
 AConsole::AConsole()
 {
     text2D = NULL;
@@ -46,7 +56,6 @@ AConsole::AConsole()
 
 void AConsole::destroy()
 {
-    text2D = NULL;
     if(lineBuffer)
         delete[] lineBuffer;
     lineBuffer = NULL;
@@ -57,10 +66,12 @@ void AConsole::destroy()
 // vytvari konzoli
 //-----------------------------------------------------------------------------
 
-bool AConsole::build(AText2D *text2D, int x, int y, int w, int h, int border)
+AConsole *AConsole::build(AText2D *text2D, int x, int y, int w, int h, int border)
 {
     if(!text2D)
-        return false;
+    {
+        throw ANullPointerException("AConsole *AConsole::build(AText2D *text2D, int x, int y, int w, int h, int border)");
+    }
 
     // nastaveni promennych konzole
     this->text2D = text2D;
@@ -83,13 +94,12 @@ bool AConsole::build(AText2D *text2D, int x, int y, int w, int h, int border)
     lineBuffer = new string[noOfLines];
     if(!lineBuffer)
     {
-        destroy();
-        return false;
+        throw AMemoryAllocException("AConsole *AConsole::build(AText2D *text2D, int x, int y, int w, int h, int border)");
     }
 
     commandLine = "_";
 
-    return true;
+    return this;
 }
 
 //-----------------------------------------------------------------------------
@@ -289,14 +299,13 @@ void AConsole::keyDownInput(SDL_keysym *keysym)
 // nacte texturu pozadi konzole
 //-----------------------------------------------------------------------------
 
-bool AConsole::backgroundTexture(char *filename)
+void AConsole::backgroundTexture(char *filename)
 {
-    if(loadTexture(filename, &texture))
+    if (!loadTexture(filename, &texture))
     {
-        isTextured = true;
-        return true;
+        throw ATextureException("void AConsole::backgroundTexture(char *filename)");
     }
-    return false;
+    isTextured = true;
 }
 
 //-----------------------------------------------------------------------------

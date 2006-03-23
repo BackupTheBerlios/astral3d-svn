@@ -92,7 +92,6 @@ struct ACollisionPacket
  */
 struct APlane
 {
-    public:
         double equation[4];
         AVector origin;
         AVector normal;

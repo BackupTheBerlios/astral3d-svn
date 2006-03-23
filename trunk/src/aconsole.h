@@ -38,6 +38,7 @@
 #include "atext.h"
 #include "atexture.h"
 #include "aerror.h"
+#include "aexceptions.h"
 
 /**
  * @namespace astral3d Astral3D namespace.
@@ -101,6 +102,8 @@ class AConsole
        */
       ~AConsole() { destroy(); }
 
+      AConsole(AText2D *text2D, int x, int y, int w, int h, int border=0);
+
       /**
        * Creates the console.
        * This method creates the console with given parameters.
@@ -113,7 +116,7 @@ class AConsole
        * @return 'true' if the console is successfuly created
        * @see destroy
        */
-      bool build(AText2D *text2D, int x, int y, int w, int h, int border=0);
+      AConsole *build(AText2D *text2D, int x, int y, int w, int h, int border=0);
       /**
        * Destroys the console.
        * This method destroys the console and frees the memory.
@@ -139,7 +142,7 @@ class AConsole
        * @param filename Image with the texture (bmp, tga, png and jpeg formats are supported)
        * @see setBackgroundAlpha
        */
-      bool backgroundTexture(char *filename);
+      void backgroundTexture(char *filename);
 
       /**
        * Sets the color of the text in the console.
@@ -181,16 +184,7 @@ class AConsole
        * This method clears the console.
        */
       void clear();
-      /**
-       * Sets the callback function (deprecated).
-       * This method sets the callback function. This function is called when 'Enter'
-       * key is pressed in the console. Parameter of the callback function is the
-       * string containing a text written to the console by user.
-       * @param *func Pointer to the function with 'void' return value and '*char'
-       * parameter
-       * @see setCallback
-       */
-      void setFunc(void (*func)(char *)) { this->func = func; }
+
       /**
        * Sets the callback function.
        * This method sets the callback function. This function is called when 'Enter'
@@ -199,7 +193,7 @@ class AConsole
        * @param *func Pointer to the function with 'void' return value and '*char'
        * parameter
        */
-      void setCallback(void (*func)(char *)) { this->func = func; }
+      void setCallback(void (*callback)(char *)) { func = callback; }
 
       /**
        * Shows the console.

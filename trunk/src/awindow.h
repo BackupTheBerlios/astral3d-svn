@@ -91,6 +91,7 @@ protected:
     AConsole *console;      // console for keyDown callback
 
     void initGL();          // inicilizes OpenGL interface
+    bool running;
 
 public:
 
@@ -98,12 +99,14 @@ public:
      * Constructor.
      * Constructor.
      */
-    AWindow();
+    AWindow() {};
     /**
      * Destructor.
      * Destructor.
      */
-    virtual ~AWindow() {}
+    virtual ~AWindow() { destroy(0); }
+
+    AWindow(int width, int height, int bpp, bool resizable = true, bool fullscreen = false);
 
     /**
      * Sets the viewport after the window resize event.
@@ -238,7 +241,7 @@ public:
      * @return 'true' if the window is created succussefully
      * @see init
      */
-    bool create(int width, int height, int bpp, bool resizable = true, bool fullscreen = false);
+    AWindow *create(int width, int height, int bpp, bool resizable = true, bool fullscreen = false);
     /**
      * Destroys the window.
      * This method destroys the window and frees the memory. It calls
@@ -350,7 +353,14 @@ public:
      * forwarded to this console and user can do text input to the console.
      * @param console Console (AConsole) to associate
      */
-    void setConsole(AConsole *console) { this->console = console; }
+    void setConsole(AConsole *console)
+    {
+        if (!console)
+        {
+            throw ANullPointerException("void setConsole(AConsole *console) -> console is NULL");
+        }
+        this->console = console;
+    }
 };
 
 } // namespace astral3d

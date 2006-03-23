@@ -28,6 +28,11 @@ void appExit(int exitCode)
     exit(exitCode);
 }
 
+AWindow::AWindow(int width, int height, int bpp, bool resizable, bool fullscreen)
+{
+    create(width, height, bpp, resizable, fullscreen);
+}
+
 //-----------------------------------------------------------------------------
 // vykresleni sceny
 //-----------------------------------------------------------------------------
@@ -64,25 +69,20 @@ void AWindow::setIcon(char *filename)
 void AWindow::destroy(int retVal)
 {
     this->exit();
-    if(screen) SDL_FreeSurface(screen);
+    if(screen)
+    {
+        SDL_FreeSurface(screen);
+    }
     SDL_Quit();
+    running = false;
     appExit(retVal);
-}
-
-//-----------------------------------------------------------------------------
-// konstruktor
-//-----------------------------------------------------------------------------
-
-AWindow::AWindow()
-{
-    console = NULL;
 }
 
 //-----------------------------------------------------------------------------
 // vytvori nove okno aplikace a provede potrebna nastaveni
 //-----------------------------------------------------------------------------
 
-bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)
+AWindow *AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)
 {
     // nastaveni promennych
     this->width = width;
@@ -95,7 +95,8 @@ bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullsc
         stringstream foo;
         foo << "AWindow::create("<<width<<", "<<height<<", "<<bpp<<", "<<resizable<<", "<<fullscreen<<")";
         setAstral3DError(SDL_GetError(), foo.str(), "SDL_Init(SDL_INIT_VIDEO)");
-        return false;
+
+        throw ASDLException("AWindow *AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)");
     }
 
     // nastaveni atributu zobrazeni
@@ -115,7 +116,8 @@ bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullsc
         stringstream foo;
         foo << "AWindow::create("<<width<<", "<<height<<", "<<bpp<<", "<<resizable<<", "<<fullscreen<<")";
         setAstral3DError(SDL_GetError(), foo.str(), "SDL_GetVideoInfo()");
-        return false;
+
+        throw ASDLException("AWindow *AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)");
     }
 
     // nastaveni dalsich parametru zobrazeni podle ziskanych informaci
@@ -136,7 +138,9 @@ bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullsc
 
     int final_flags = flags;
     if(this->fullscreen)
+    {
         final_flags |= SDL_FULLSCREEN;
+    }
 
     this->screen = SDL_SetVideoMode(this->width, this->height,
                                     this->bpp, final_flags);
@@ -148,7 +152,8 @@ bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullsc
         foo << "AWindow::create("<<width<<", "<<height<<", "<<bpp<<", "<<resizable<<", "<<fullscreen<<")";
         bar << "SDL_SetVideoMode("<<width<<", "<<height<<", "<<bpp<<", "<<final_flags<<")";
         setAstral3DError(SDL_GetError(), foo.str(), bar.str());
-        return false;
+
+        throw ASDLException("AWindow *AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)");
     }
 
     // inicializuje OpenGL okno
@@ -163,12 +168,13 @@ bool AWindow::create(int width, int height, int bpp, bool resizable, bool fullsc
         this->exit();
         if(screen) SDL_FreeSurface(screen);
         SDL_Quit();
-        return false;
+
+        throw AException("AWindow *AWindow::create(int width, int height, int bpp, bool resizable, bool fullscreen)");
     }
 
     glLoadIdentity();
 
-    return true;
+    return this;
 }
 
 //-----------------------------------------------------------------------------
@@ -244,7 +250,7 @@ void AWindow::toggleFullscreen(bool fullscreen)
 
 void AWindow::run()
 {
-    bool running = true;
+    running = true;
 
     int final_flags;
 

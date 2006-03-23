@@ -37,5 +37,7 @@
 #include "aerror.h"
 #include "alight.h"
 #include "asurface.h"
+#include "aexceptions.h"
+#include "aabstract.h"
 
 #endif // #ifndef ASTRAL3D_H

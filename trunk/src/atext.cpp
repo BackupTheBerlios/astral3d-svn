@@ -23,10 +23,19 @@ using namespace std;
 namespace astral3d {
 
 //-----------------------------------------------------------------------------
+//  konstruktor
+//-----------------------------------------------------------------------------
+
+AText2D::AText2D(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH)
+{
+    build(filename, translate, windowW, windowH, fontW, fontH, charW, charH);
+}
+
+//-----------------------------------------------------------------------------
 //  vytvoreni fontu
 //-----------------------------------------------------------------------------
 
-bool AText2D::buildFont(char *filename, int translate,
+AText2D *AText2D::build(char *filename, int translate,
                                         int windowW, int windowH,
                                         int fontW, int fontH,
                                         int charW, int charH)
@@ -41,16 +50,18 @@ bool AText2D::buildFont(char *filename, int translate,
     this->sizeHeight = charH;
 
     if(!loadTexture(filename, &(this->texture)))
-        return false;
+    {
+        throw ATextureException("AText2D *AText2D::build(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH)");
+    }
 
-    return true;
+    return this;
 }
 
 //-----------------------------------------------------------------------------
 //  nacteni retezce popisujici font ze souboru
 //-----------------------------------------------------------------------------
 
-bool AText2D::loadString(char *filename)
+string AText2D::loadString(char *filename)
 {
     ifstream file;
     file.open(filename);
@@ -62,7 +73,8 @@ bool AText2D::loadString(char *filename)
         foo << "AText2D::loadString(\""<<filename<<"\")";
         bar << "ifstream.open("<<filename<<")";
         setAstral3DError("Can't open file with the font description", foo.str(), bar.str());
-        return false;
+
+        throw AReadFileException("string AText2D::loadString(char *filename)");
     }
 
     char c;
@@ -78,7 +90,7 @@ bool AText2D::loadString(char *filename)
 
     file.close();
 
-    return true;
+    return foo.str();
 }
 
 //-----------------------------------------------------------------------------

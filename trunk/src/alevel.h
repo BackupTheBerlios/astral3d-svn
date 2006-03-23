@@ -37,6 +37,7 @@
 #include "acollision.h"
 #include "a3dsmodel.h"
 #include "aerror.h"
+#include "aabstract.h"
 
 /**
  * @namespace astral3d Astral3D namespace.
@@ -55,7 +56,7 @@ typedef GLuint* pGLuint;
  * the basic interface for collision detection and response with the camera (ACamera
  * class).
  */
-class ALevel
+class ALevel : public Level
 {
     private:
         ATriangle   *triangles;         // triangles building the level
@@ -72,31 +73,13 @@ class ALevel
         // number of triangles in each list
         GLuint *numberOfTrianglesInList;
 
-        // collision structure
-        ACollisionPacket colPackage;
-
-        // max depth of recursion when making collision detection
+        // max depth of recursion when testing collision detection
         int collisionRecursionDepth;
 
-        // gravity
-        AVector gravityVector;
-
-        // center of the sphere which we do collision detection tests in
-        AVector spherePosition;
-
-        // radius of this sphere
-        double sphereRadius;
-
-        // enables collision detection only in the given sphere
-        bool sphere;
-
-        // enables gravity
-        bool gravity;
+    private:
 
         // create lists of triangles according to the textures
         bool createLists();
-
-    private:
 
         AVector collideWithWorld(const AVector &pos, const AVector &vel);
 
@@ -108,6 +91,10 @@ class ALevel
          * Constructor.
          */
         ALevel();
+
+        ALevel(char *filename, char *texturePath);
+
+        ALevel(Model3D *model);
 
         /**
          * Destructor.
@@ -173,19 +160,17 @@ class ALevel
          *
          * @param *filename Filename of the file with the level
          * @param *texturePath Path to the directory with textures
-         * @return 'true' if the level is successfuly loaded
          * @see destroy
          */
-        bool load(char *filename, char *texturePath);
+        ALevel *load(char *filename, char *texturePath);
 
         /**
          * Saves the level.
          * This method saves the level to the file.
          * @param filename Filename of the new file with the level
-         * @return 'true' if the save is successful
          * @see load
          */
-        bool save(char *filename);
+        void save(char *filename);
 
         /**
          * Draws the level.
@@ -251,99 +236,12 @@ class ALevel
         AVector getGravityPosition(const AVector &pos);
 
         /**
-         * Sets the collision ellipsoid.
-         * This method sets the collision ellipsoid for the level. Collision
-         * ellipsoid is the structure that the collision detection is done
-         * against.
-         * @param eRadius Vector (AVector) describing the ellipsoid. X, Y and Z
-         *                values of the vector characterize radiuses of the
-         *                ellipsoid. X and Z values should be equal but Y should be
-         *                bigger - than the ellipsoid will look like a human body.
-         *                If X=Y=Z than we get a collision sphere.
-         */
-        inline void setEllipsoid(const AVector &eRadius);
-
-        /**
-         * Sets the level gravity.
-         * This method sets the level gravity.
-         * @param gravity Vector (AVector) describing the level gravity
-         * @see getGravityPosition
-         * @see getGravityDirection
-         */
-        inline void setGravity(const AVector &gravity);
-
-        /**
-         * Enables gravity.
-         * This method enables gravity in the level.
-         */
-        void enableGravity() { this->gravity = true; }
-
-        /**
-         * Disables gravity.
-         * This method disables gravity in the level.
-         */
-        void disableGravity() { this->gravity = false; }
-
-        /**
-         * Returns 'true' if the gravity is enabled.
-         * This method returns 'true' if the gravity is enabled.
-         * @return 'true' if the gravity is enabled
-         * @see enableGravity()
-         * @see disableGravity()
-         * @see setGravity()
-         */
-        bool isGravityEnabled() { return this->gravity; }
-
-        /**
-         * Enables collision detection sphere test.
-         * This method enables collision detection sphere test. It means
-         * that the collision detection is tested only against the triangles
-         * being in the give sphere. This sphere is setup by ALevel::setSpherePosition
-         * and ALevel::setSphereRadius methods. Collision detection is very expensive
-         * calculation so the sphere test saves time.
-         * @see disableSphere
-         * @see setSpherePosition
-         * @see setSphereRadius
-         */
-        void enableSphere() { this->sphere = true; }
-
-        /**
-         * Disables collision detection sphere test.
-         * This method disables collision detection sphere test.
-         * See ALevel::enableSphere for more info.
-         * @see enableSphere
-         */
-        void disableSphere() { this->sphere = false; }
-
-        /**
-         * Sets center of the sphere for collision detection sphere test.
-         * This method sets center of the sphere for collision detection sphere test.
-         * See ALevel::enableSphere for more info.
-         * @param sPosition Center of the sphere for collision detection sphere test
-         * @see enableSphere
-         * @see disablesphere
-         * @see setSphereRadius
-         */
-        void setSpherePosition(const AVector &sPosition) { this->spherePosition = sPosition; }
-
-        /**
-         * Sets radius of the sphere for collision detection sphere test.
-         * This method sets radius of the sphere for collision detection sphere test.
-         * See ALevel::enableSphere for more info.
-         * @param sRadius Radius of the sphere for collision detection sphere test
-         * @see enableSphere
-         * @see disablesphere
-         * @see setSphereRadius
-         */
-        void setSphereRadius(double sRadius) { this->sphereRadius = sRadius; }
-
-        /**
          * Saves lists of triangles according to the textures.
          * This method saves lists of triangles according to the textures.
          * Only for debugging needs.
          * @param filename Name of the file to save to
          */
-        bool saveListOfTriangles(char *filename);
+        void saveListOfTriangles(char *filename);
 
         /**
          * Adds the triangle (ATrianagle) to the level.
@@ -384,28 +282,9 @@ class ALevel
          * This method builds the level from 3DS model (A3DSModel). If the
          * level is built the model isn't needed anymore.
          * @param model A3DSModel model
-         * @return 'true' of the level is built successfuly
          */
-        bool buildFromModel(A3DSModel *model);
+        ALevel *buildFromModel(Model3D *model);
 };
-
-//-----------------------------------------------------------------------------
-//  sets the collision ellipsoid
-//-----------------------------------------------------------------------------
-
-void ALevel::setEllipsoid(const AVector &eRadius)
-{
-    this->colPackage.eRadius = eRadius;
-}
-
-//-----------------------------------------------------------------------------
-//  sets the gravity
-//-----------------------------------------------------------------------------
-
-void ALevel::setGravity(const AVector &gravity)
-{
-    this->gravityVector = gravity;
-}
 
 //-----------------------------------------------------------------------------
 //  destructor

@@ -27,6 +27,7 @@
 /**
  * @file a3dsmodel.h A3DSModel class.
  */
+
 #ifndef A3DSMODEL_H
 #define A3DSMODEL_H
 
@@ -44,11 +45,13 @@
 #include "atexture.h"
 #include "a3ds.h"
 #include "aerror.h"
+#include "aabstract.h"
+#include "aexceptions.h"
 
 #ifdef WIN32
-    #include <SDL.h>
+#include <SDL.h>
 #else
-    #include "SDL.h"
+#include "SDL.h"
 #endif
 
 /**
@@ -62,10 +65,9 @@ namespace astral3d {
  * Class for loading and rendering 3DS models.
  * This class is the interface for loading and displaying 3DS file formats.
  */
-class A3DSModel
+class A3DSModel : public Model3D
 {
   private:
-
     A3DModel *m3DModel;                   // 3ds model
     A3DSLoader *mLoad3ds;                 // 3ds loader
     GLuint TextureArray3ds[MAXTEXTURE];   // textures for 3ds model
@@ -78,6 +80,8 @@ class A3DSModel
      */
     A3DSModel() { m3DModel = NULL; mLoad3ds = NULL; }
 
+    A3DSModel(char* filename, char *texturePath);
+
     /**
      * Destructor.
      * Destructor calls A3DSModel::destroy method.
@@ -89,10 +93,9 @@ class A3DSModel
      * This method loads 3DS model from the file.
      * @param filename Filename of the 3DS file
      * @param texturePath Path to the directory where texture files are located
-     * @return 'true' if the 3DS file is loaded successfuly
      * @see destroy
      */
-    bool load(char* filename, char *texturePath);
+    A3DSModel *load(char* filename, char *texturePath);
     /**
      * Draws the model.
      * This method draws loaded model to the screen. Model has to be loaded
