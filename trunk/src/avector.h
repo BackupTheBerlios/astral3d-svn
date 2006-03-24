@@ -52,9 +52,9 @@ class AVector
     /**
      * Constructor.
      * Constructor.
-     * @param X X-position
-     * @param Y Y-position
-     * @param Z Z-position
+     * @param x x-position
+     * @param y y-position
+     * @param z z-position
      */
     AVector(double x=0, double y=0, double z=0)
     {
@@ -65,46 +65,37 @@ class AVector
 
     /**
      * Sum.
-     * Sum.
      */
     AVector  operator+  (const AVector) const;
     /**
-     * Difference.
      * Difference.
      */
     AVector  operator-  (const AVector) const;
     /**
      * Unary minus.
-     * Unary minus.
      */
     AVector  operator-  (void) const;
     /**
-     * Product.
      * Product.
      */
     AVector  operator*  (double) const;
     /**
      * Dot roduct.
-     * Dot roduct.
      */
     double   operator*  (const AVector) const;
     /**
-     * Cross roduct.
      * Cross roduct.
      */
     AVector  operator%  (const AVector) const;
     /**
      * Equivalence.
-     * Equivalence.
      */
     bool     operator== (const AVector) const;
     /**
      * Non equivalence.
-     * Non equivalence.
      */
     bool     operator!= (const AVector) const;
     /**
-     * Selection.
      * Selection.
      */
     double   operator[] (int) const;
@@ -116,14 +107,14 @@ class AVector
     void     normalize();
     /**
      * Applies the OpenGL matrix.
-     * This method applies the OpenGL matrix to the vector.
+     * This method applies the OpenGL matrix to vector.
      * @param mat OpenGL matrix to apply
      */
     void     applyMatrix(double mat[16]);
     /**
      * Returns squared length.
-     * This method returns squared length of the vector for faster
-     * calculations.
+     * This method returns squared length of the vector (for faster
+     * calculations).
      * @return Squared length of the vector
      * @see getLength
      */
@@ -144,24 +135,20 @@ class AVector
 
     /**
      * Increments the vector.
-     * Increments the vector.
      * @param a Vector to add
      */
     void     operator+= (const AVector a)   { (*this) = (*this) + a; }
     /**
-     * Decrements the vector.
      * Decrements the vector.
      * @param a Vector to subtract
      */
     void     operator-= (const AVector a)   { (*this) = (*this) - a; }
     /**
      * Cross product with the vector.
-     * Cross product with the vector.
      * @param a Vector to multiply
      */
     void     operator%= (const AVector a)   { (*this) = (*this) % a; }
     /**
-     * Product width the scalar.
      * Product width the scalar.
      * @param m Scalar to multiply with
      */

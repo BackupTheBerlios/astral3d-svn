@@ -67,9 +67,8 @@ class Model3D
          */
         virtual std::string getTexturePath() = 0;
         /**
-         * Returns the model data.
-         * This method returns A3DModel class containing model data.
-         * @return Pointer to A3DModel class containing model data
+         * Returns the texture path.
+         * @return Path to the directory containing model textures
          */
         virtual A3DModel *get3DModel() = 0;
 };

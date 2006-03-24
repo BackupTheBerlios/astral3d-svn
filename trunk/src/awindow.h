@@ -46,20 +46,19 @@ namespace astral3d {
 
 /**
  * Exit function.
- * Exit function.
  * @param exitCode Exit code of the program
  */
 void appExit(int exitCode);
 
 /**
- * Class for manipulating the windows.
+ * Class for manipulating windows.
  * This class is the interface into the application. It can handle system events
  * such as pressing the key or moving the mouse. Typical use of the AWindow
  * class is to create your own class inheritting from AWindow class and
  * override some important methods. These methods are virtual in AWindow class.
  * @n
  * @n
- * Your window class should look like this:
+ * Your new window class should look like this:
  * @n
  * @code
  * class MyWindow : public AWindow
@@ -71,10 +70,8 @@ void appExit(int exitCode);
  *   void render();
  *   void keyDown(SDL_keysym *keysym);
  *   void keyUp(SDL_keysym *keysym);
- * }window;
+ * };
  * @endcode
- * @n
- * In this example MyWindow class overrides methods that should be overriden.
  */
 class AWindow
 {
@@ -97,15 +94,23 @@ public:
 
     /**
      * Constructor.
-     * Constructor.
      */
     AWindow() {};
     /**
      * Destructor.
-     * Destructor.
      */
     virtual ~AWindow() { destroy(0); }
 
+    /**
+     * Constructor.
+     * @param width Window width
+     * @param height Window height
+     * @param bpp Color depth
+     * @param resizable Resizable window
+     * @param fullscreen Fullscreen mode
+     * @throw ASDLException
+     * @throw AException
+     */
     AWindow(int width, int height, int bpp, bool resizable = true, bool fullscreen = false);
 
     /**
@@ -120,9 +125,9 @@ public:
      */
     virtual void resizeScreen(int width, int height);
     /**
-     * Draws the scene.
+     * Renderes the scene.
      * This method should be overriden. It is called automatically from the
-     * main loop.
+     * main loop. This method should contain code for rendering the scene.
      * @see run
      * @see loop
      */
@@ -196,8 +201,8 @@ public:
      * Application init method.
      * This method inicializes the application.
      * This method should be overriden. It is called automatically
-     * from AWindow::create when creating the window.
-     * @return 'true' if the initialization is OK
+     * from AWindow::create when building the window.
+     * @return True if the initialization is OK
      * @see create
      * @see exit
      */
@@ -214,8 +219,8 @@ public:
      * Mousedown callback method.
      * This method is called automatically from the main loop after the
      * mousedown event is catched. This method should be overriden.
-     * @param mouseX X-mouse position
-     * @param mouseY Y-mouse position
+     * @param mouseX x-mouse position
+     * @param mouseY x-mouse position
      * @param button Pressed button
      */
     virtual void mouseButtonDown(int mouseX, int mouseY, int button) {}
@@ -223,8 +228,8 @@ public:
      * Mouseup callback method.
      * This method is called automatically from the main loop after the
      * mouseup event is catched. This method should be overriden.
-     * @param mouseX X-mouse position
-     * @param mouseY Y-mouse position
+     * @param mouseX x-mouse position
+     * @param mouseY y-mouse position
      * @param button Releassed button
      */
     virtual void mouseButtonUp(int mouseX, int mouseY, int button) {}
@@ -235,10 +240,12 @@ public:
      * AWindow::init method at the end.
      * @param width Window width
      * @param height Window height
-     * @param bpp Bit depth
+     * @param bpp Color depth
      * @param resizable Resizable window
      * @param fullscreen Fullscreen mode
-     * @return 'true' if the window is created succussefully
+     * @return Pointer to this instance
+     * @throw ASDLException
+     * @throw AException
      * @see init
      */
     AWindow *create(int width, int height, int bpp, bool resizable = true, bool fullscreen = false);
@@ -260,8 +267,8 @@ public:
      */
     void run();
     /**
-     * Changes fullscreen mode.
-     * This method changes fullscreen mode.
+     * Changes the fullscreen mode.
+     * This method changes the fullscreen mode.
      * @param fullscreen Fullscreen mode
      */
     void toggleFullscreen(bool fullscreen);
@@ -274,7 +281,8 @@ public:
     void setCaption(char *caption);
     /**
      * Sets the window icon.
-     * This method sets the window icon.
+     * This method sets the window icon. In MS Windows this icon must be
+     * 32x32 pixels.
      * @param caption Window icon
      * @see setCaption
      */
@@ -324,7 +332,7 @@ public:
      * Example of usage
      * @n
      * @code
-     * int flags = win.getFlags()
+     * int flags = window->getFlags()
      * if((flags & SDL_RESIZABLE) == SDL_RESIZABLE)
      * {
      *     // window is resizable
@@ -348,10 +356,11 @@ public:
      */
     void showCursor()    { SDL_ShowCursor(SDL_ENABLE); }
     /**
-     * Sets the console (AConsole) for keyDown callback.
-     * This method associates console with the window. KeyDown events are
+     * Sets the console for keyDown callback.
+     * This method associates console to the window. KeyDown events are
      * forwarded to this console and user can do text input to the console.
-     * @param console Console (AConsole) to associate
+     * @param console Console to be set
+     * @throw ANullPointerException
      */
     void setConsole(AConsole *console)
     {

@@ -62,8 +62,7 @@ namespace astral3d {
 #define MAXTEXTURE 100
 
 /**
- * Class for loading and rendering 3DS models.
- * This class is the interface for loading and displaying 3DS file formats.
+ * Class for loading and displaying 3D Studio (3DS) models.
  */
 class A3DSModel : public Model3D
 {
@@ -76,10 +75,18 @@ class A3DSModel : public Model3D
   public:
     /**
      * Constructor.
-     * Constructor.
      */
     A3DSModel() { m3DModel = NULL; mLoad3ds = NULL; }
 
+    /**
+     * Constructor.
+     * @param filename Filename of the 3DS model
+     * @param texturePath Path to the directory containing model textures
+     * @throw AMemoryAllocException
+     * @throw AException
+     * @throw AReadFileException
+     * @throw ATextureException
+     */
     A3DSModel(char* filename, char *texturePath);
 
     /**
@@ -89,17 +96,19 @@ class A3DSModel : public Model3D
     ~A3DSModel() { destroy(); }
 
     /**
-     * Loads 3DS model.
-     * This method loads 3DS model from the file.
-     * @param filename Filename of the 3DS file
-     * @param texturePath Path to the directory where texture files are located
-     * @see destroy
+     * Loads the model.
+     * Loads 3DS model from the file.
+     * @param filename Filename of the 3DS model
+     * @param texturePath Path to the directory containing model textures
+     * @return Pointer to this instance
+     * @throw AMemoryAllocException
+     * @throw AException
+     * @throw AReadFileException
+     * @throw ATextureException
      */
     A3DSModel *load(char* filename, char *texturePath);
     /**
-     * Draws the model.
-     * This method draws loaded model to the screen. Model has to be loaded
-     * first.
+     * Renderes the model.
      * @see load
      */
     void render();
@@ -110,17 +119,15 @@ class A3DSModel : public Model3D
      */
     void destroy();
     /**
-     * Returns 3D model containing model data.
-     * This method returns model (A3DModel) structure containing model data.
-     * @return pointer to A3DModel structure
+     * Returns model data.
+     * This method returns A3DModel class containing model data.
+     * @return Pointer to A3DModel class containing model data
      */
     A3DModel *get3DModel() { return m3DModel; }
 
     /**
-     * Returns texture path directory.
-     * This method returns the path to the directory where textures are located.
-     * @return Texture path directory
-     * @see load
+     * Returns the texture path.
+     * @return Path to the directory containing model textures
      */
     std::string getTexturePath() { return texturePath; }
 };

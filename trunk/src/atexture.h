@@ -58,7 +58,7 @@ namespace astral3d {
  * @param texture Pointer to the texture identifier
  * @param min
  * @param mag
- * @return 'true' if the texture is loaded and created successfuly
+ * @return True if the texture is loaded and created successfuly
  */
 bool loadTexture(char *filename, GLuint *texture, GLint min=GL_LINEAR, GLint mag=GL_LINEAR);
 /**
@@ -69,7 +69,7 @@ bool loadTexture(char *filename, GLuint *texture, GLint min=GL_LINEAR, GLint mag
  * @param min
  * @param mag
  * @param type Type of the image in the surface to create the texture from (BMP, TGA, PNG, JPG)
- * @return 'true' if the texture is created successfuly
+ * @return True if the texture is created successfuly
  */
 bool createTexture(SDL_Surface *Image, GLuint *texture, GLint min=GL_LINEAR, GLint mag=GL_LINEAR, int type=BMP);
 /**
@@ -77,7 +77,7 @@ bool createTexture(SDL_Surface *Image, GLuint *texture, GLint min=GL_LINEAR, GLi
  * This function loads and creates the texture with MipMapping.
  * @param filename Image filename (BMP, TGA, PNG, JPEG)
  * @param texture Pointer to the texture identifier
- * @return 'true' if the texture is loaded and created successfuly
+ * @return True if the texture is loaded and created successfuly
  */
 bool loadTextureMipMap(char *filename, GLuint *texture);
 /**
@@ -86,14 +86,14 @@ bool loadTextureMipMap(char *filename, GLuint *texture);
  * @param Image Pointer to the SDL_Surface structure
  * @param texture Pointer to the texture identifier
  * @param type Type of the image in the surface to create the texture from (BMP, TGA, PNG, JPG)
- * @return 'true' if the texture is created successfuly
+ * @return True if the texture is created successfuly
  */
 bool createTextureMipMap(SDL_Surface *Image, GLuint *texture, int type=BMP);
 
 /**
  * Frees the texture from the memory.
  * This function frees the texture from the memory.
- * @param *texture Texture ID
+ * @param texture Texture ID
  */
 void deleteTexture(GLuint *texture);
 

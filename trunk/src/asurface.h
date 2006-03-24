@@ -40,8 +40,7 @@
 namespace astral3d {
 
 /**
- * Struct defining a rectangle.
- * This struct defines a rectangle.
+ * Structure describing a rectangle.
  */
 struct ARectangle
 {
@@ -52,10 +51,9 @@ struct ARectangle
 
     /**
      * Constructor.
-     * Constructor.
-     * @param x X-position
-     * @param y Y-position
-     * @param width Width of the rectaangle
+     * @param x x-position
+     * @param y y-position
+     * @param width Width of the rectangle
      * @param height Height of the rectangle
      */
     inline ARectangle(int x = 0, int y = 0, int width = 0, int height = 0);
@@ -83,22 +81,22 @@ class ASurface
 
         /**
          * Constructor.
-         * Constructor.
          */
         ASurface();
 
         /**
          * Constructor.
-         * Build constructor.
          * @param imageFilename Filename of the image (BMP, TGA, PNG, JPEG)
-         * @param window Window which the surface will be associated with
-         * @param alpha Transparency of the console (0 to 255 where 255 means full transparent)
+         * @param window Window the surface is associated to
+         * @param alpha Transparency of the console (0 to 255 where 255 is full transparent)
+         * @throw ATextureException
+         * @throw ANullPointerException
          */
         ASurface(char *imageFileName, AWindow *window, unsigned int alpha = 0);
 
         /**
          * Destructor.
-         * Destructor.
+         * Calls ASurface::destroy method.
          */
         ~ASurface();
 
@@ -110,23 +108,24 @@ class ASurface
 
         /**
          * Loads the image.
-         * This method loads the image of the surface.
+         * This method loads the image for the surface.
          * @param imageFilename Image to load (BMP, TGA, PNG, JPEG)
-         * @return 'true' if the image is loaded successfuly
+         * @throw ATextureException
          */
         void loadImage(char *imageFileName);
 
         /**
-         * Associates the surface with the window.
-         * This method associates the surface with the window.
-         * @param window Window to associate the surface with
+         * Sets the window.
+         * Sets the window for the surface.
+         * @param window Window to associate the surface to
+         * @throw ANullPointerException
          */
         void setWindow(AWindow *window);
 
         /**
          * Sets the transparency.
-         * this method sets the transparency.
-         * @param alpha Transparency of the console (0 to 255 where 255 means full transparent)
+         * This method sets the transparency.
+         * @param alpha Transparency of the console (0 to 255 where 255 is full transparent)
          */
         void setAlpha(unsigned int alpha);
 
@@ -178,8 +177,8 @@ class ASurface
         /**
          * Draws the image.
          * You must call ASurface::begin before drawing.
-         * @param x X-position of the image in the window from the left
-         * @param y Y-position of the image in the window from the bottom
+         * @param x x-position of the image in the window from the left
+         * @param y y-position of the image in the window from the bottom
          * @param source Rectangle to be drawn from the image (in pixels)
          * @see begin
          * @see end
@@ -219,7 +218,7 @@ class ASurface
         unsigned char getAlpha()          { return alpha;}
         /**
          * Returns associated window.
-         * @return Window the surface is associated with
+         * @return Window the surface is associated to
          */
         AWindow*      getWindow()         { return window; }
 };

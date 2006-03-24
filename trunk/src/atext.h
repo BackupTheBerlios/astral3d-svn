@@ -73,90 +73,105 @@ class AText2D
 
     public:
 
+        /**
+         * Constructor.
+         */
         AText2D() {}
 
         /**
          * Destructor.
-         * Destructor.
+         * Calls AText2D::destroy method.
          */
         ~AText2D() { destroy(); }
 
-        AText2D(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
-
         /**
-         * Creates the font.
-         * This method loads the texture and builds the font from it.
-         * @param filename Texture filename (bmp, tga, jpg and png files are allowed)
-         * @param translate Size of translation of the text when drawing
+         * Constructor.
+         * @param filename Texture filename (BMP, TGA, JPG and PNG files formats are supported)
+         * @param translate Text translation
          * @param windowW Width of the main window
          * @param WindowH Height of the main window
          * @param fontW Width of the image with the font
          * @param fontH Height of the image with the font
          * @param charW Width of the character in the image
          * @param charH Height of the character in the image
-         * @return 'true' if the font is successfuly created
+         * @throw ATextureException
+         */
+        AText2D(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
+
+        /**
+         * Builds the font.
+         * This method loads the texture and builds the font from it.
+         * @param filename Texture filename (BMP, TGA, JPG and PNG files formats are supported)
+         * @param translate Text translation
+         * @param windowW Width of the main window
+         * @param WindowH Height of the main window
+         * @param fontW Width of the image with the font
+         * @param fontH Height of the image with the font
+         * @param charW Width of the character in the image
+         * @param charH Height of the character in the image
+         * @return Pointer to this instance
          * @see destroyFont
+         * @throw ATextureException
          */
         AText2D *build(char *filename, int translate, int windowW, int windowH, int fontW, int fontH, int charW, int charH);
         /**
-         * Associates the text string with the font.
+         * Sets the string describing the font.
          * This method sets the text description of the font. The text is read
          * from left top corner.
          * @param str Text description of the font
+         * @see loadString
          */
         void setString(const std::string &str) { this->strFont = str; }
         /**
          * Loads font description from the file.
          * This method sets the text description of the font. String describing
          * the font is loaded from the file.
-         * @param filename File containing the font description
+         * @param filename File with the font description
+         * @return String describing the font
+         * @see setString
+         * @throw AReadFileException
          */
         std::string loadString(char *filename);
         /**
          * Sets the output size of characters.
          * This method sets the output size of characters and the size
-         * of translation to print them.
-         * @param sizeW Width of a character when drawing
-         * @param sizeH Height of a character when drawing
+         * of the text translation.
+         * @param sizeW Width of the character
+         * @param sizeH Height of the character
          * @param translate Translation
          */
  inline void setSize(int sizeW, int sizeH, int translate);
         /**
          * Prints the output.
-         * This method prints a text output. This method should be called
+         * This method prints the text output. This method should be called
          * when rendering the scene.
-         * @param x X-position of the text from left (in pixels)
-         * @param x Y-position of the text from bottom (in pixels)
-         * @param str Text string to print
+         * @param x x-position of the text from the left (in pixels)
+         * @param y y-position of the text from the bottom (in pixels)
+         * @param str String to be printed using 'printf' function format
          */
         void print(GLint x, GLint y, const char *str, ...);
 
         /**
-         * Returns translation.
          * Returns translation.
          * @return Translation
          */
         int getTranslate()     { return translate; }
         /**
          * Returns output width of the characters.
-         * Returns output width of the characters.
          * @return Output width of the characters
          */
         int getSizeWidth()     { return sizeWidth; }
         /**
-         * Returns output height of the characters.
          * Returns output height of the characters.
          * @return Output height of the characters
          */
         int getSizeHeight()    { return sizeHeight; }
         /**
          * Returns width of the main window.
-         * Returns width of the main window.
          * @return Width of the main window.
          */
         int getWindowWidth()   { return windowWidth; }
         /**
-         * Returns height of the main window.
          * Returns height of the main window.
          * @return Height of the main window.
          */
@@ -165,6 +180,7 @@ class AText2D
         /**
          * Destroys the font.
          * This method frees the memory and destroys the font.
+         * It is called automatically from the destructor.
          * @see buildFont
          */
         inline void destroy();
