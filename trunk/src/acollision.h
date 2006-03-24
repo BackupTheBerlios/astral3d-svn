@@ -54,7 +54,6 @@ namespace astral3d {
 
 /**
  * Structure containing information about the collision.
- * This structure contains information about the collision in 3D space.
  */
 struct ACollisionPacket
 {
@@ -77,7 +76,7 @@ struct ACollisionPacket
 
         /**
          * Prints the info.
-         * Prints information to the standart output
+         * Prints information to stdout
          */
         void print();
 };
@@ -88,7 +87,6 @@ struct ACollisionPacket
 
 /**
  * Structure describing a plane in the 3D space.
- * This structure contains information to describe a plane in the 3D space.
  */
 struct APlane
 {
@@ -98,7 +96,7 @@ struct APlane
 
     /**
      * Constructor.
-     * Constructor from the vertex and normal of the plane.
+     * Constructor from the vertex and the normal of the plane.
      * @param origin Vertex of the plane
      * @param normal Normal of the plane
      */
@@ -107,21 +105,42 @@ struct APlane
     /**
      * Constructor.
      * Constructor from the triangle.
-     * @param p1 vertex A of the triangle
-     * @param p2 vertex B of the triangle
-     * @param p3 vertex C of the triangle
+     * @param p1 Vertex A of the triangle
+     * @param p2 Vertex B of the triangle
+     * @param p3 Vertex C of the triangle
      */
     APlane(const AVector& p1, const AVector& p2, const AVector& p3);
 
+    /**
+     * Is front facing to the point.
+     * @param direction Point to be tested against
+     * @return True if the plane has its front face to the given point
+     */
     bool isFrontFacingTo(const AVector& direction) const;
 
+    /**
+     * Distance to the given point.
+     * @param point Point to be testes against
+     * @return Signed distance to the given point
+     */
     double signedDistanceTo(const AVector& point) const;
 };
 
-
+/**
+ * Checkes if the point is inside the triangle.
+ */
 bool checkPointInTriangle(const AVector& point, const AVector& pa,const AVector& pb, const AVector& pc);
+/**
+ * Solves the equation.
+ */
 bool getLowestRoot(double a, double b, double c, double maxR, double* root);
+/**
+ * Tests the collision detection against the triangle.
+ */
 void checkTriangle(ACollisionPacket* colPackage, const AVector& p1,const AVector& p2,const AVector& p3, const AVector& normal);
+/**
+ * Calculates new position after the sliding.
+ */
 bool slide(ACollisionPacket* colPackage, double unitsPerMeter, AVector *newBasePoint, AVector *newVelocityVector);
 
 } // namespace astral3d

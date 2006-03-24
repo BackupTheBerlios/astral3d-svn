@@ -42,11 +42,35 @@ namespace astral3d {
 class Model3D
 {
     public:
+        /**
+         * Destructor.
+         */
         virtual ~Model3D() {}
+        /**
+         * Loads 3D model from the file.
+         * @param filename Filename of the 3D model
+         * @param texturePath Path to the directory containing model textures
+         * @return Pointer to this instance
+         */
         virtual Model3D *load(char* filename, char *texturePath) = 0;
+        /**
+         * Renderes the model.
+         */
         virtual void render() = 0;
+        /**
+         * Destroys the model.
+         */
         virtual void destroy() = 0;
+        /**
+         * Returns the texture path.
+         * @return Path to the directory containing model textures
+         */
         virtual std::string getTexturePath() = 0;
+        /**
+         * Returns the model data.
+         * This method returns A3DModel class containing model data.
+         * @return Pointer to A3DModel class containing model data
+         */
         virtual A3DModel *get3DModel() = 0;
 };
 
@@ -77,63 +101,67 @@ class Level
         bool gravity;
 
     public:
+        /**
+         * Destructor.
+         */
         virtual ~Level() {}
 
+        /**
+         * Loads the level.
+         * This method loads the level from the file.
+         * @param filename Filename of the level
+         * @param texturePath Path to the directory containing level textures
+         * @return Pointer to this instance
+         */
         virtual Level *load(char *filename, char *texturePath) = 0;
 
         /**
          * Saves the level.
          * This method saves the level to the file.
-         * @param filename Filename of the new file with the level
-         * @return 'true' if the save is successful
+         * @param filename Filename to save to
          * @see load
          */
         virtual void save(char *filename) = 0;
 
         /**
-         * Draws the level.
-         * This method draws the level on the screen.
+         * Renderes the level.
          */
         virtual void render() = 0;
 
         /**
          * Destroys the level.
-         * This method destroys the level and frees the memory.
          * @see load
          */
         virtual void destroy() = 0;
 
         /**
-         * Returns the position after the collision detection and response.
-         * This metod returns new position (AVector) in 3D space according to
-         * the requested move, collision detection and response.
+         * Returns new position after the collision detection and response.
+         * This metod returns new position according to the requested move,
+         * collision detection and response.
          * @param pos Starting position of the move
          * @param vel Requested move
-         * @return New position after the collision detection and response
-         * @see setEllipsoid
+         * @return New position
          * @see getDirection
          */
         virtual AVector getPosition(const AVector &pos, const AVector &vel) = 0;
 
         /**
          * Returns new vector of movement after the collision detection and response.
-         * This metod returns new vector (AVector) of movement in 3D space according to
-         * the requested move, collision detection and response.
+         * This metod returns new vector of movement according to the requested
+         * move, collision detection and response.
          * @param pos Starting position of the move
          * @param vel Requested move
-         * @return New vector of movement after the collision detection and response
-         * @see setEllipsoid
+         * @return New vector of movement
          * @see getPosition
          */
         virtual AVector getDirection(const AVector &pos, const AVector &vel) = 0;
 
         /**
          * Returns new vector of movement after the collision detection and response.
-         * This metod returns new vector (AVector) of movement in 3D space according to
-         * the gravity, collision detection and response.
+         * This metod returns new vector of movement according to the gravity,
+         * collision detection and response.
          * @param pos Starting position of the move
-         * @return New vector of movement after the collision detection and response
-         * @see setEllipsoid
+         * @return New vector of movement
          * @see getDirection
          * @see getGravityPosition
          * @see setGravity
@@ -141,12 +169,11 @@ class Level
         virtual AVector getGravityDirection(const AVector &pos) = 0;
 
         /**
-         * Returns the position after the collision detection and response.
-         * This metod returns new position (AVector) in 3D space according to
-         * the gravity, collision detection and response.
+         * Returns new position after the collision detection and response.
+         * This metod returns new position according to the gravity,
+         * collision detection and response.
          * @param pos Starting position of the move
-         * @return New position after the collision detection and response
-         * @see setEllipsoid
+         * @return New position
          * @see getDirection
          * @see getGravityDirection
          * @see setGravity
@@ -154,31 +181,30 @@ class Level
         virtual AVector getGravityPosition(const AVector &pos) = 0;
 
         /**
-         * Builds the level from the 3DS model (A3DSModel).
-         * This method builds the level from 3DS model (A3DSModel). If the
+         * Builds the level from the 3D model.
+         * This method builds the level from the 3D model. When the
          * level is built the model isn't needed anymore.
-         * @param model A3DSModel model
-         * @return 'true' of the level is built successfuly
+         * @param model Model3D representing 3D model
+         * @return Pointer to this instance
          */
         virtual Level *buildFromModel(Model3D *model) = 0;
 
         /**
          * Sets the collision ellipsoid.
          * This method sets the collision ellipsoid for the level. Collision
-         * ellipsoid is the structure that the collision detection is done
+         * ellipsoid is the shape that the collision detection is done
          * against.
-         * @param eRadius Vector (AVector) describing the ellipsoid. X, Y and Z
-         *                values of the vector characterize radiuses of the
-         *                ellipsoid. X and Z values should be equal but Y should be
-         *                bigger - than the ellipsoid will look like a human body.
-         *                If X=Y=Z than we get a collision sphere.
+         * @param eRadius Vector representing the ellipsoid. x, y and z
+         *                values of the vector are radiuses of the
+         *                ellipsoid. x and z should be equal. y should be
+         *                bigger - the ellipsoid will look like a human body.
          */
         void setEllipsoid(const AVector &eRadius) { this->colPackage.eRadius = eRadius; }
 
         /**
          * Sets the level gravity.
          * This method sets the level gravity.
-         * @param gravity Vector (AVector) describing the level gravity
+         * @param gravity Vector representing the level gravity
          * @see getGravityPosition
          * @see getGravityDirection
          */
@@ -186,33 +212,29 @@ class Level
 
         /**
          * Enables gravity.
-         * This method enables gravity in the level.
+         * This method enables the gravity in the level.
          */
         void enableGravity() { this->gravity = true; }
 
         /**
          * Disables gravity.
-         * This method disables gravity in the level.
+         * This method disables the gravity in the level.
          */
         void disableGravity() { this->gravity = false; }
 
         /**
-         * Returns 'true' if the gravity is enabled.
-         * This method returns 'true' if the gravity is enabled.
-         * @return 'true' if the gravity is enabled
-         * @see enableGravity()
-         * @see disableGravity()
-         * @see setGravity()
+         * Returns gravity state.
+         * @return True if the gravity is enabled
+         * @see enableGravity
+         * @see disableGravity
+         * @see setGravity
          */
         bool isGravityEnabled() { return this->gravity; }
 
         /**
-         * Enables collision detection sphere test.
-         * This method enables collision detection sphere test. It means
-         * that the collision detection is tested only against the triangles
-         * being in the give sphere. This sphere is setup by ALevel::setSpherePosition
-         * and ALevel::setSphereRadius methods. Collision detection is very expensive
-         * calculation so the sphere test saves time.
+         * Enables collision detection Sphere test.
+         * This method enables collision detection Sphere test. Collision
+         * detection is done against the triangles being inside the sphere.
          * @see disableSphere
          * @see setSpherePosition
          * @see setSphereRadius
@@ -220,18 +242,18 @@ class Level
         void enableSphere() { this->sphere = true; }
 
         /**
-         * Disables collision detection sphere test.
-         * This method disables collision detection sphere test.
-         * See ALevel::enableSphere for more info.
+         * Disables collision detection Sphere test.
          * @see enableSphere
+         * @see setSpherePosition
+         * @see setSphereRadius
          */
         void disableSphere() { this->sphere = false; }
 
         /**
-         * Sets center of the sphere for collision detection sphere test.
-         * This method sets center of the sphere for collision detection sphere test.
-         * See ALevel::enableSphere for more info.
-         * @param sPosition Center of the sphere for collision detection sphere test
+         * Sets new position of the sphere for collision detection.
+         * This method sets new position of the sphere for collision detection
+         * Sphere test.
+         * @param sPosition Position of the center of the sphere
          * @see enableSphere
          * @see disablesphere
          * @see setSphereRadius
@@ -239,10 +261,9 @@ class Level
         void setSpherePosition(const AVector &sPosition) { this->spherePosition = sPosition; }
 
         /**
-         * Sets radius of the sphere for collision detection sphere test.
-         * This method sets radius of the sphere for collision detection sphere test.
-         * See ALevel::enableSphere for more info.
-         * @param sRadius Radius of the sphere for collision detection sphere test
+         * Sets radius of the sphere for collision detection.
+         * This method sets radius of the sphere for collision detection.
+         * @param sRadius Radius of the sphere for collision detection
          * @see enableSphere
          * @see disablesphere
          * @see setSphereRadius
@@ -252,6 +273,7 @@ class Level
 
 /**
  * Abstract class for collision detection.
+ * This is abstract class for all objects doing collision against the level.
  */
 class CollisionEllipsoid
 {
@@ -260,9 +282,26 @@ class CollisionEllipsoid
         AVector eRadius;
 
     public:
+        /**
+         * Destructor.
+         */
         virtual ~CollisionEllipsoid() {}
 
+        /**
+         * Sets the shape.
+         * This method sets the shape of the ellipsoid.
+         * @param eRadius Vector representing the ellipsoid. x, y and z
+         *                values of the vector are radiuses of the
+         *                ellipsoid. x and z should be equal. y should be
+         *                bigger - the ellipsoid will look like a human body.
+         */
         void setEllipsoid(const AVector &eRadius) { this->eRadius = eRadius; }
+        /**
+         * Sets the level.
+         * This method sets the level that the collision detection is done against.
+         * @param level Level to be set
+         * @throws ANullPointerException
+         */
         void setLevel(Level *level)
         {
             if (!level)
@@ -272,8 +311,16 @@ class CollisionEllipsoid
             this->level = level;
         }
 
+        /**
+         * Returns the level.
+         * This method returns the level that the collision detection is done against.
+         * @return Level for collision detection
+         */
         Level *getLevel() { return level; }
 
+        /**
+         * Reaction to the gravity of the level.
+         */
         virtual void checkLevelGravity() = 0;
 };
 

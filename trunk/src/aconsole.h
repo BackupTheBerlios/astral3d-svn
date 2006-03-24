@@ -47,11 +47,7 @@ namespace astral3d {
 
 /**
  * Class for I/O.
- * This class provides basic interface to cummunicate with the user.
- * Thanks this class program using Astral3D can write its output
- * to the console and user can write commands into it. Remeber that you have
- * to associate the console with the window (AWindow class) using AWindow::setConsole
- * method if you want to be able to do user input.
+ * This class provides basic interface for communication with user.
  */
 class AConsole
 {
@@ -92,34 +88,44 @@ class AConsole
 
       /**
        * Constructor.
-       * Constructor.
        */
       AConsole();
       /**
        * Destructor.
-       * Destructor calls destroy method.
-       * @see AConsole::destroy
+       * Calls AConsole::destroy method.
+       * @see destroy
        */
       ~AConsole() { destroy(); }
 
+      /**
+       * Constructor.
+       * @param text2D AText2D class that will be used for text output
+       * @param x x-position of the console on the screen (from left)
+       * @param y y-position of the console on the screen (from bottom)
+       * @param w Width of the console
+       * @param h Height of the console
+       * @param border Border width of the console
+       * @throw ANullPointerException
+       */
       AConsole(AText2D *text2D, int x, int y, int w, int h, int border=0);
 
       /**
-       * Creates the console.
-       * This method creates the console with given parameters.
-       * @param text2D AText2D class for text output in the console
-       * @param x X-position of the console in the window (from left in pixels)
-       * @param y Y-position of the console in the window (from bottom in pixels)
-       * @param w Width of the console in pixels
-       * @param h height of the console in pixels
-       * @param boreder Border width of the console in pixels (by default: border=0)
-       * @return 'true' if the console is successfuly created
-       * @see destroy
+       * Builds the console.
+       * This method creates the console.
+       * @param text2D AText2D class that will be used for text output
+       * @param x x-position of the console on the screen (from left)
+       * @param y y-position of the console on the screen (from bottom)
+       * @param w Width of the console
+       * @param h Height of the console
+       * @param border Border width of the console
+       * @return Pointer to this instance
+       * @throw ANullPointerException
        */
       AConsole *build(AText2D *text2D, int x, int y, int w, int h, int border=0);
       /**
        * Destroys the console.
        * This method destroys the console and frees the memory.
+       * Called automatically from the destructor.
        * @see build
        */
       void destroy();
@@ -127,52 +133,51 @@ class AConsole
       /**
        * Prints the output to the console.
        * This method prints the output to the console using 'printf' function syntax.
-       * @param str Text string to output
+       * @param str Text to write
        */
       void print(const char *str, ...);
       /**
-       * Draws the console.
-       * This method draws the console if visible.
+       * Renderes the console.
+       * This method renderes the console.
        */
       void render();
 
       /**
        * Sets the background texture for the console.
        * This method sets the background texture for the console.
-       * @param filename Image with the texture (bmp, tga, png and jpeg formats are supported)
+       * @param filename Filename of the texture (PNG, TGA, BMP and JPEG formats are supported)
        * @see setBackgroundAlpha
+       * @throw ATextureException
        */
       void backgroundTexture(char *filename);
 
       /**
-       * Sets the color of the text in the console.
+       * Sets the text color.
        * This method sets the color of the text in the console.
-       * @param r Red color of the RGB model (0 to 255)
-       * @param g Green color of the RGB model (0 to 255)
-       * @param b Blue color of the RGB model (0 to 255)
+       * @param r Red value of the RGB model (0 to 255)
+       * @param g Green value of the RGB model (0 to 255)
+       * @param b Blue value of the RGB model (0 to 255)
        */
       inline void setColor(unsigned char r, unsigned char g, unsigned char b);
       /**
        * Sets the transparency.
        * This method sets the transparency of the console background.
-       * @param aplha Transparency of the background (0 to 255 where 255 means
-       * full transparent)
+       * @param aplha Transparency of the background (0 to 255, 255 is full transparent)
        * @see backgroundTexture
        */
       inline void setBackgroundAlpha(unsigned char alpha);
 
       /**
        * Sets the console show/hide key.
-       * This method sets the key which will be used to show and hide
+       * This method sets the key that will be used to show and hide
        * the console. Default show/hide key for the console is F1.
-       * @param key SDLKey enumeration type for the keys (see SDL documentation
-       * for more info)
+       * @param key SDLKey enumeration type for the keys (see SDL documentation for more info)
        * @see getConsoleOnOffKey
        */
       void   setConsoleOnOffKey(SDLKey key)  { consoleOnOffKey = key; }
       /**
        * Returns the console show/hide key.
-       * This method returns the key which is used to show and hide
+       * This method returns the key that is used to show and hide
        * the console. Default show/hide key for the console is F1.
        * @return Key for showing and hiding the console (SDLKey enumertion type)
        * @see getConsoleOnOffKey
@@ -190,17 +195,17 @@ class AConsole
        * This method sets the callback function. This function is called when 'Enter'
        * key is pressed in the console. Parameter of the callback function is the
        * string containing a text written to the console by user.
-       * @param *func Pointer to the function with 'void' return value and '*char'
-       * parameter
+       * @param callback Pointer to the function having 'void' return value and '*char' parameter
+       * @throw ANullPointerException
        */
-      void setCallback(void (*callback)(char *)) { func = callback; }
+      inline void setCallback(void (*callback)(char *));
 
       /**
        * Shows the console.
        * This method shows the console. You don't have to call this method
-       * if the console is associated with the window (AWindow class)
-       * by the AWindow::setConsole method. In this case the console is
-       * shown and hidden by the key set by the AConsole::setConsoleOnOffKey
+       * if the console is associated to the window (AWindow class)
+       * using the AWindow::setConsole method. In this case the console is
+       * shown and hidden using the key set by the AConsole::setConsoleOnOffKey
        * method.
        * @see setConsoleOnOffKey
        * @see hide
@@ -209,8 +214,8 @@ class AConsole
       /**
        * Hides the console.
        * This method hides the console. You don't have to call this method
-       * if the console is associated with the window (AWindow class)
-       * by the AWindow::setConsole method. In this case the console is
+       * if the console is associated to the window (AWindow class)
+       * using the AWindow::setConsole method. In this case the console is
        * shown and hidden by the key set by the AConsole::setConsoleOnOffKey
        * method.
        * @see setConsoleOnOffKey
@@ -234,14 +239,14 @@ class AConsole
       /**
        * Enables fade-out effect.
        * This method enables fade-out effect which means that older console
-       * outputs are more transparent than the new ones.
+       * outputs are more transparent than new ones.
        * @see disableFadeOut
        */
       void enableFadeOut()     { fadeOut = true; }
       /**
        * Disables fade-out effect.
        * This method Disables fade-out effect which means that older console
-       * outputs aren't more transparent than the new ones.
+       * outputs aren't more transparent than new ones.
        * @see enableFadeOut
        */
       void disableFadeOut()    { fadeOut = false; }
@@ -249,22 +254,21 @@ class AConsole
       /**
        * Returns user input state.
        * This method returns user input state.
-       * @return 'true' if the user input is enabled
+       * @return True if the user input is enabled
        */
       bool isUserInput()       { return userInput; }
       /**
        * Returns visibility of the console.
-       * This method returns 'true' if the console is visible.
-       * @return 'true' if the console is visible
+       * @return True if the console is visible
        */
       bool isVisible()         { return visible; }
 
       /**
-       * Writes the character to the console.
-       * This method writes the character to the console. This method is called
+       * Writes a character to the console.
+       * This method writes a character to the console. This method is called
        * from the AWindow class main loop method if the console is associated
-       * with the window (see AWindow::setConsole).
-       * @param c Character to write to the console
+       * to the window (see AWindow::setConsole).
+       * @param c Character to write
        * @see keyDownInput
        */
       void input(char c);
@@ -272,7 +276,7 @@ class AConsole
        * User input to the console.
        * This method processes the user input given by the SDL_keysym
        * structure. This method is called from the AWindow class main loop
-       * method if the console is associated with the window (see AWindow::setConsole).
+       * method if the console is associated to the window (see AWindow::setConsole).
        * @param keysym SDL_keysym structure (see SDL documentation for more info)
        * @see input
        */
@@ -304,6 +308,20 @@ void AConsole::setColor(unsigned char r, unsigned char g, unsigned char b)
 void AConsole::setBackgroundAlpha(unsigned char alpha)
 {
     backgroundAlpha = 255 - alpha;
+}
+
+//-----------------------------------------------------------------------------
+// sets the callback function
+//-----------------------------------------------------------------------------
+
+void AConsole::setCallback(void (*callback)(char *))
+{
+    if (!callback)
+    {
+        throw ANullPointerException("void AConsole::setCallback(void (*callback)(char *))");
+    }
+
+    func = callback;
 }
 
 } // namespace astral3d

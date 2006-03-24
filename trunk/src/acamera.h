@@ -64,10 +64,8 @@ namespace astral3d {
 //-----------------------------------------------------------------------------
 
 /**
- * Class for moving the camera in the 3D space.
+ * Class for moving the camera.
  * This class provides camera movement in the 3D space.
- * ACamera is also designed to do collision detection against
- * the level represented by the ALevel class.
  */
 class ACamera : public CollisionEllipsoid
 {
@@ -84,38 +82,47 @@ class ACamera : public CollisionEllipsoid
 
   public:
     /**
-     * Constructor.
-     * Constructor sets the camera position to the start position.
-     * Default start position is AVector(0.0, 0.0, 0.0).
-     * @param vec Camera start position
+     * Constructor..
+     * @param vec Camera starting position.
      */
     ACamera(AVector vec = AVector(0.0, 0.0, 0.0));
 
+    /**
+     * Constructor.
+     * @param window AWindow class to be associated to the camera
+     * @throw ANullPointerException
+     */
     ACamera(AWindow *window);
 
+    /**
+     * Constructor.
+     * @param window AWindow class to be associated to the camera
+     * @param level Level class to be associated to the camera
+     * @throw ANullPointerException
+     */
     ACamera(AWindow *window, Level *level);
 
     /**
-     * Sets the camera to the scene.
+     * Sets the scene according to the camera.
      * This method updates the scene view according to the camera view.
      * It should be called before rendering the scene.
      */
     inline   void    set();
     /**
      * Updates camera position.
-     * This method updates camera position by adding the given vector to the
+     * This method updates camera position by adding the vector to the
      * current camera position.
-     * @param vec Vector (AVector) to add
+     * @param vec Vector to add
      */
     inline   void    update(AVector vec);
     /**
      * Sets the camera position.
      * This method sets the camera position in the scene.
-     * @param vec New camera position (AVector)
+     * @param vec New camera position
      */
     inline   void    setPosition(AVector vec);
     /**
-     * Sets the speed of mevement.
+     * Sets the speed of movement.
      * This method sets the speed of camera movement. Default speed is 1.
      * @param speed New speed of movement.
      * @see getSpeed
@@ -126,6 +133,8 @@ class ACamera : public CollisionEllipsoid
      * This method returns the speed of camera movement.
      * @return Speed of movement of the camera
      * @see setSpeed
+     * @see move
+     * @see step
      */
     inline   double  getSpeed();
 
@@ -134,7 +143,15 @@ class ACamera : public CollisionEllipsoid
      * Moves the camera according to the given direction and the speed
      * given by ACamera::setSpeed method.
      *
-     * @param dir Direction, allowed directions: FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN
+     * @param dir Direction of movement; allowed directions:<br/>
+     * <ul>
+     *    <li>FORWARD</li>
+     *    <li>BACKWARD</li>
+     *    <li>LEFT</li>
+     *    <li>RIGHT</li>
+     *    <li>UP</li>
+     *    <li>DOWN</li>
+     * </ul>
      * @see setSpeed
      * @see getSpeed
      * @see step
@@ -144,30 +161,47 @@ class ACamera : public CollisionEllipsoid
      * @see moveBackward
      * @see moveUp
      * @see moveDown
+     * @throw AIllegalArgumentException
      */
     void     move(int dir);
     /**
      * Makes a move according to the given direction.
      * Moves the camera according to the given direction and the speed
-     * given by ACamera::setSpeed method.
+     * given by ACamera::setSpeed method regardless of camera rotation.
      *
-     * @param dir Direction, allowed directions: FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN
+     * @param dir Direction of movement; allowed directions:<br/>
+     * <ul>
+     *    <li>FORWARD</li>
+     *    <li>BACKWARD</li>
+     *    <li>LEFT</li>
+     *    <li>RIGHT</li>
+     *    <li>UP</li>
+     *    <li>DOWN</li>
+     * </ul>
      * @see setSpeed
      * @see getSpeed
      * @see move
-     * @see stepRight
-     * @see stepLeft
-     * @see stepForward
-     * @see stepBackward
-     * @see stepUp
-     * @see stepDown
+     * @see moveRight
+     * @see moveLeft
+     * @see moveForward
+     * @see moveBackward
+     * @see moveUp
+     * @see moveDown
+     * @throw AIllegalArgumentException
      */
     void     step(int dir);
     /**
-     * Rotation.
+     * Rotates the camera.
      * This method rotates the camera according to the given angle.
-     * @param dir Direction of turning the camera, allowed directions: LEFT, RIGHT, UP, DOWN
-     * @param angle Angle in degrees
+     *
+     * @param dir Direction of the rotation; allowed directions:<br/>
+     * <ul>
+     *    <li>LEFT</li>
+     *    <li>RIGHT</li>
+     *    <li>UP</li>
+     *    <li>DOWN</li>
+     * </ul>
+     * @param angle Angle of the rotation in degrees
      * @see turnLeft
      * @see turnRight
      * @see lookUp
@@ -241,7 +275,7 @@ class ACamera : public CollisionEllipsoid
      */
     void     disableCollision() { this->collision = false; }
     /**
-     * Moves the camera according to the gravitation of the level.
+     * Moves the camera according to the gravity of the level.
      * This method moves the camera according to the gravity of the level.
      * @see setLevel
      * @see enableCollision
@@ -254,7 +288,7 @@ class ACamera : public CollisionEllipsoid
      * This method enables mouse control of the camera.
      * @see disableMouse
      * @see setMouseSensitivity
-     * @see mouseProc
+     * @see mouseProcedure
      */
     void     enableMouse()    { mouse = true; }
     /**
@@ -262,7 +296,7 @@ class ACamera : public CollisionEllipsoid
      * This method disables mouse control of the camera.
      * @see enableMouse
      * @see setMouseSensitivity
-     * @see mouseProc
+     * @see mouseProcedure
      */
     void     disableMouse()   { mouse = false; }
     /**
@@ -271,7 +305,8 @@ class ACamera : public CollisionEllipsoid
      * @param sens Mouse sensitivity (default is 10)
      * @see enableMouse
      * @see disableMouse
-     * @see mouseProc
+     * @see mouseProcedure
+     * @see getMouseSensitivity
      */
     void     setMouseSensitivity(double sens) { sensitivity = sens; }
     /**
@@ -280,7 +315,8 @@ class ACamera : public CollisionEllipsoid
      * @return Mouse sensitivity
      * @see enableMouse
      * @see disableMouse
-     * @see mouseProc
+     * @see mouseProcedure
+     * @see setMouseSensitivity
      */
     double   getMouseSensitivity() { return sensitivity; }
 
@@ -290,16 +326,20 @@ class ACamera : public CollisionEllipsoid
      * It sets new camera position according to the mouse movement.
      * @see setWindow
      * @see enableMouse
+     * @see disableMouse
+     * @see setMouseSensitivity
      */
     void     mouseProcedure();
 
     /**
-     * Associates the window with the camera.
-     * This method sets the windows to the camera. You should call this method
+     * Sets the window to the camera.
+     * This method sets the window to the camera. This method should be called
      * before calling ACamera::mouseProcedure.
-     * @param window Window (AWindow) to accosiate
-     * @see mouseProc
+     * @param window Window to be set
+     * @see mouseProcedure
      * @see enableMouse
+     * @see disableMouse
+     * @throw ANullPointerException
      */
     void     setWindow(AWindow *window)
     {
@@ -310,9 +350,25 @@ class ACamera : public CollisionEllipsoid
         this->window = window;
     }
 
+    /**
+     * Returns the position of the camera.
+     * @return Position of the camera
+     */
     AVector  getEye() { return this->eye; }
+    /**
+     * Returns the front point of the camera.
+     * @return Front point of the camera
+     */
     AVector  getFront() { return this->front; }
+    /**
+     * Returns the top point of the camera.
+     * @return Top point of the camera
+     */
     AVector  getTop() { return this->top; }
+    /**
+     * Returns the right point of the camera.
+     * @return Right point of the camera
+     */
     AVector  getRight() { return this->right; }
 };
 

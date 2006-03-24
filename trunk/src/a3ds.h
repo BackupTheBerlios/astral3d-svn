@@ -134,6 +134,9 @@ struct AFace
 //-----------------------------------------------------------------------------
 // Material Info
 //-----------------------------------------------------------------------------
+/**
+ * Material info of the object in A3DModel class.
+ */
 struct AMaterialInfo
 {
     char  strName[255];
@@ -149,6 +152,9 @@ struct AMaterialInfo
 //-----------------------------------------------------------------------------
 // 3D Object
 //-----------------------------------------------------------------------------
+/**
+ * 3D object building 3D model represented by A3DModel class.
+ */
 struct A3DObject
 {
     int  numOfVerts;
@@ -167,6 +173,10 @@ struct A3DObject
 //-----------------------------------------------------------------------------
 // 3D Model
 //-----------------------------------------------------------------------------
+/**
+ * Structure containing model data.
+ * This structure contains data of the 3D model. Used by Model3D class.
+ */
 struct A3DModel
 {
     int numOfObjects;

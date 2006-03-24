@@ -51,10 +51,8 @@ typedef GLuint* pGLuint;
 //-----------------------------------------------------------------------------
 
 /**
- * Class for loading and rendering levels.
- * This class is used for loading and rendering a level and provides
- * the basic interface for collision detection and response with the camera (ACamera
- * class).
+ * Class for loading and displaying levels.
+ * This class loads and displays Astral3D format of levels.
  */
 class ALevel : public Level
 {
@@ -81,35 +79,53 @@ class ALevel : public Level
         // create lists of triangles according to the textures
         bool createLists();
 
+        // calculates the collision
         AVector collideWithWorld(const AVector &pos, const AVector &vel);
 
+        // checkes for collision
         void checkCollision();
 
     public:
         /**
          * Constructor.
-         * Constructor.
          */
         ALevel();
 
+        /**
+         * Constructor
+         * This constructor loads the level from the file.
+         * @param filename Filename of the level
+         * @param texturePath Path to the directory containing level textures
+         * @throw AReadFileException
+         * @throw AMemoryAllocException
+         * @throw ATextureException
+         * @throw AException
+         */
         ALevel(char *filename, char *texturePath);
 
+        /**
+         * Constructor
+         * This constructor builds the level from the model.
+         * @param model Model3D class to build the level from
+         * @throw AMemoryAllocException
+         * @throw ATextureException
+         * @throw AException
+         */
         ALevel(Model3D *model);
 
         /**
          * Destructor.
          * Calls Alevel::destroy method.
-         *
          * @see destroy
          */
         inline ~ALevel();
 
         /**
-         * Loads the level from the text file.
-         * This method loads the level from the given text file.
+         * Loads the level from the file.
+         * This method loads the level from the text file.
          * @n
          * @n
-         * Format of the text file containing the level:
+         * Format of the text file:
          * @code
          * number_of_textures
          *
@@ -158,8 +174,13 @@ class ALevel : public Level
          *  0     -1    0
          * @endcode
          *
-         * @param *filename Filename of the file with the level
-         * @param *texturePath Path to the directory with textures
+         * @param filename Filename of the level
+         * @param texturePath Path to the directory containing level textures
+         * @return Pointer to this instance
+         * @throw AReadFileException
+         * @throw AMemoryAllocException
+         * @throw ATextureException
+         * @throw AException
          * @see destroy
          */
         ALevel *load(char *filename, char *texturePath);
@@ -167,14 +188,15 @@ class ALevel : public Level
         /**
          * Saves the level.
          * This method saves the level to the file.
-         * @param filename Filename of the new file with the level
+         * @param filename Filename to save the level to
+         * @throw AWriteFileException
          * @see load
          */
         void save(char *filename);
 
         /**
-         * Draws the level.
-         * This method draws the level on the screen.
+         * Renderes the level.
+         * This method renderes the level.
          */
         void render();
 
@@ -186,36 +208,33 @@ class ALevel : public Level
         void destroy();
 
         /**
-         * Returns the position after the collision detection and response.
-         * This metod returns new position (AVector) in 3D space according to
-         * the requested move, collision detection and response.
+         * Returns new position after the collision detection and response.
+         * This metod returns new position according to the requested move,
+         * collision detection and response.
          * @param pos Starting position of the move
          * @param vel Requested move
-         * @return New position after the collision detection and response
-         * @see setEllipsoid
+         * @return New position
          * @see getDirection
          */
         AVector getPosition(const AVector &pos, const AVector &vel);
 
         /**
          * Returns new vector of movement after the collision detection and response.
-         * This metod returns new vector (AVector) of movement in 3D space according to
-         * the requested move, collision detection and response.
+         * This metod returns new vector of movement according to the requested
+         * move, collision detection and response.
          * @param pos Starting position of the move
          * @param vel Requested move
-         * @return New vector of movement after the collision detection and response
-         * @see setEllipsoid
+         * @return New vector of movement
          * @see getPosition
          */
-        AVector getDirection(const AVector &pos, const AVector &vel);
+         AVector getDirection(const AVector &pos, const AVector &vel);
 
         /**
          * Returns new vector of movement after the collision detection and response.
-         * This metod returns new vector (AVector) of movement in 3D space according to
-         * the gravity, collision detection and response.
+         * This metod returns new vector of movement according to the gravity,
+         * collision detection and response.
          * @param pos Starting position of the move
-         * @return New vector of movement after the collision detection and response
-         * @see setEllipsoid
+         * @return New vector of movement
          * @see getDirection
          * @see getGravityPosition
          * @see setGravity
@@ -223,12 +242,11 @@ class ALevel : public Level
         AVector getGravityDirection(const AVector &pos);
 
         /**
-         * Returns the position after the collision detection and response.
-         * This metod returns new position (AVector) in 3D space according to
-         * the gravity, collision detection and response.
+         * Returns new position after the collision detection and response.
+         * This metod returns new position according to the gravity,
+         * collision detection and response.
          * @param pos Starting position of the move
-         * @return New position after the collision detection and response
-         * @see setEllipsoid
+         * @return New position
          * @see getDirection
          * @see getGravityDirection
          * @see setGravity
@@ -239,35 +257,38 @@ class ALevel : public Level
          * Saves lists of triangles according to the textures.
          * This method saves lists of triangles according to the textures.
          * Only for debugging needs.
-         * @param filename Name of the file to save to
+         * @param filename Filename to save the list to
+         * @throw AWriteFileException
          */
         void saveListOfTriangles(char *filename);
 
         /**
-         * Adds the triangle (ATrianagle) to the level.
-         * This method adds the new triangle to the level.
-         * @param triangle New triangle to add
+         * Adds the triangle to the level.
+         * This method adds a new triangle to the level.
+         * @param triangle ATriangle to add
          * @see removeTriangle
+         * @return True if added successfuly
          */
         bool addTriangle(ATriangle triangle);
 
         /**
          * Removes the triangle from the level.
          * This method removes the triangle from the level. Actually this
-         * method only sets triangle validity to 'false' and removes it from
+         * method only sets triangles validity to 'false' and removes it from
          * the list of triangles. Triangle is still in the memory but isn't
          * rendered and isn't saved when calling ALevel::save method.
          * @param id Triangles id in the buffer
          * @see addTriangle
          * @see save
+         * @return True if the triangle is removed successfuly
          */
         bool removeTriangle(GLuint id);
 
         /**
          * Splits the triangles.
-         * This method splits too 'big' triangles into smaller ones. Triangles
-         * having the area bigger than the given parameter are split up into
-         * two new smaller triangles. Old triangles are removed.
+         * This method splits too big triangles into smaller ones. Triangles
+         * having the area bigger than the parameter are split up into
+         * new smaller triangles. Old big triangles are removed.
          * @param s Border area for splitting up the triangles
          * @param recursive Should the method be called recursively
          *                  (this causes that new triangles are also tested
@@ -278,10 +299,14 @@ class ALevel : public Level
         void splitTriangles(double s, bool recursive=false);
 
         /**
-         * Builds the level from the 3DS model (A3DSModel).
-         * This method builds the level from 3DS model (A3DSModel). If the
+         * Builds the level from the 3D model.
+         * This method builds the level from the 3D model. When the
          * level is built the model isn't needed anymore.
-         * @param model A3DSModel model
+         * @param model Model3D representing 3D model
+         * @return Pointer to this instance
+         * @throw AMemoryAllocException
+         * @throw ATextureException
+         * @throw AException
          */
         ALevel *buildFromModel(Model3D *model);
 };

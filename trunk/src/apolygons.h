@@ -35,7 +35,7 @@ namespace astral3d {
 
 /**
  * Structure representing a trinagle.
- * This structure represents a triangle in 2D space.
+ * This structure represents a triangle.
  */
 struct ATriangle
 {
@@ -49,7 +49,7 @@ struct ATriangle
     bool valid;                 // is trianle valid?
 
     /**
-     * Computes a normal.
+     * Computes the normal.
      * This method computes the normal of the tringle from its vertices.
      */
     void computeNormal();
@@ -57,7 +57,7 @@ struct ATriangle
 
 /**
  * Structure representing a quad.
- * This structure represents a quad in 2D space.
+ * This structure represents a quad.
  */
 struct AQuad
 {
@@ -72,7 +72,7 @@ struct AQuad
     bool valid;                 // is quad valid?
 
     /**
-     * Computes a normal.
+     * Computes the normal.
      * This method computes the normal of the quad from its vertices.
      */
     void computeNormal();

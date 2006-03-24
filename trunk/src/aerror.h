@@ -34,9 +34,6 @@ namespace astral3d {
 
 /**
  * Structure containing error description.
- * This class contains 3 strings. errorDescription is the description of the
- * error, senderFunction is the description of the function that sends this
- * error and failedFunction is the function that failed.
  */
 struct AError
 {
@@ -49,7 +46,6 @@ struct AError
 
 /**
  * Returns description of the last Astral3D error.
- * This function returns description of the last Astral3D error.
  * @return AError structure containing the error specification
  */
 AError getAstral3DError();
@@ -57,9 +53,9 @@ AError getAstral3DError();
 /**
  * Sets Astral3D error.
  * This function sets the Astral3D error description. It is used by Atral3D
- * classes and functions and should not be used by user.
+ * classes and functions and should not be called by user.
  * @param description Error description
- * @param sender Function that sends this error
+ * @param sender Function that generates this error
  * @param failed Function that failed
  */
 void setAstral3DError(std::string description, std::string sender, std::string failed);

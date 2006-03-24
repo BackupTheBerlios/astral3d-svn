@@ -33,7 +33,7 @@
 namespace astral3d {
 
 /**
- * Class for light management.
+ * Class for displaying lights.
  * This class provides basic functions for displaying lights in the scene.
  */
 class ALight
@@ -48,7 +48,6 @@ class ALight
     public:
 
         /**
-         * Constructor.
          * Constructor.
          */
         ALight();
