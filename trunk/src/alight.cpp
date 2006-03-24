@@ -66,13 +66,9 @@ void ALight::render(double radius)
 
     glColor3f(diffuse[0], diffuse[1], diffuse[2]);
 
-    glPushMatrix();
-    glLoadIdentity();
     glTranslatef(position[0], position[1], position[2]);
-
     gluSphere(quadratic, (float) radius, 32, 32);
-
-    glPopMatrix();
+    glTranslatef(-position[0], -position[1], -position[2]);
 
     if (blending) glEnable(GL_BLEND);
     if (textures) glEnable(GL_TEXTURE_2D);
