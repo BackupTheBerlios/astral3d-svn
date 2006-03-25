@@ -138,6 +138,7 @@ void ACamera::move(int direction)
 
     if(this->collision)
     {
+        level->setEllipsoid(eRadius);
         AVector newVel = this->level->getDirection(this->eye, v);
         v = newVel;
     }
@@ -210,6 +211,7 @@ void ACamera::step(int direction)
 
     if(this->collision)
     {
+        level->setEllipsoid(eRadius);
         AVector newVel = this->level->getDirection(this->eye, v);
         v = newVel;
     }
@@ -226,6 +228,7 @@ void ACamera::checkLevelGravity()
 {
     if(level != NULL && level->isGravityEnabled())
     {
+        level->setEllipsoid(eRadius);
         AVector v = this->level->getGravityDirection(this->eye);
         this->update(v);
     }
