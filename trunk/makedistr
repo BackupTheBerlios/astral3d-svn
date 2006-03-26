@@ -101,18 +101,7 @@ echo -e "\t\t\t\tDONE"
 
 mkdir $DISTR/examples
 echo -n "Copying example files"
-cp examples/console.cpp $DISTR/examples/
-cp examples/camera.cpp $DISTR/examples/
-cp examples/level.cpp $DISTR/examples/
-cp examples/text.cpp $DISTR/examples/
-cp examples/console.bmp $DISTR/examples/
-cp examples/floor.bmp $DISTR/examples/
-cp examples/font.bmp $DISTR/examples/
-cp examples/icon.bmp $DISTR/examples/
-cp examples/level.lev $DISTR/examples/
-cp examples/text.des $DISTR/examples/
-cp examples/wall.tga $DISTR/examples/
-cp examples/Makefile $DISTR/examples/
+cp examples/* $DISTR/examples/
 echo -e "\t\t\t\tDONE"
 
 cd distr
