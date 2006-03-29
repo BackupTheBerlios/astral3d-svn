@@ -23,6 +23,10 @@
 #ifndef AERROR_H
 #define AERROR_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 #include <string>
 #include <sstream>

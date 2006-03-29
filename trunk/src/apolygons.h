@@ -23,6 +23,10 @@
 #ifndef APOLYGONS_H
 #define APOLYGONS_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <sstream>
 #include <GL/gl.h>
 #include "avector.h"

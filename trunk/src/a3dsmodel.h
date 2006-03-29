@@ -49,9 +49,10 @@
 #include "aexceptions.h"
 
 #ifdef WIN32
-#include <SDL.h>
+    #include <windows.h>
+    #include <SDL.h>
 #else
-#include "SDL.h"
+    #include "SDL.h"
 #endif
 
 /**

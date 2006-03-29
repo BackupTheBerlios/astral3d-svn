@@ -23,6 +23,10 @@
 #ifndef AEXCEPTIONS_H
 #define AEXCEPTIONS_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 #include <stdexcept>
 

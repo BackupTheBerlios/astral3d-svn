@@ -23,6 +23,10 @@
 #ifndef ALIGHT_H
 #define ALIGHT_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <string>
@@ -165,9 +169,9 @@ void ALight::setPosition(GLfloat x, GLfloat y, GLfloat z, GLfloat r)
 
 void ALight::setPosition(AVector position)
 {
-    this->position[0] = position.x;
-    this->position[1] = position.y;
-    this->position[2] = position.z;
+    this->position[0] = (GLfloat) position.x;
+    this->position[1] = (GLfloat) position.y;
+    this->position[2] = (GLfloat) position.z;
 
     glLightfv(light, GL_POSITION, this->position);
 }
@@ -177,9 +181,9 @@ void ALight::setPosition(AVector position)
 
 void ALight::update(AVector vector)
 {
-    position[0] += vector.x;
-    position[1] += vector.y;
-    position[2] += vector.z;
+    position[0] += (GLfloat) vector.x;
+    position[1] += (GLfloat) vector.y;
+    position[2] += (GLfloat) vector.z;
 
     glLightfv(light, GL_POSITION, this->position);
 }

@@ -32,6 +32,10 @@
 #ifndef ACOLLISION_H
 #define ACOLLISION_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <cmath>
 #include <iostream>
 #include <sstream>

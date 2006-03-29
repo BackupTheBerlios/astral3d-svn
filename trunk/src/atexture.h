@@ -32,6 +32,7 @@
 #include "aerror.h"
 
 #ifdef WIN32
+    #include <windows.h>
     #include <SDL.h>
     #include <SDL_image.h>
 #else

@@ -30,6 +30,7 @@
 #include <GL/glu.h>
 
 #ifdef WIN32
+    #include <windows.h>
     #include <SDL.h>
 #else
     #include "SDL.h"

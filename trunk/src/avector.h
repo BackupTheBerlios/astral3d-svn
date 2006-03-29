@@ -23,6 +23,10 @@
 #ifndef AVECTOR_H
 #define AVECTOR_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 #include <sstream>
 #include <cmath>

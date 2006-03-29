@@ -23,6 +23,10 @@
 #ifndef AABSTRACT_H
 #define AABSTRACT_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 #include "acollision.h"
 #include "avector.h"

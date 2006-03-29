@@ -23,6 +23,10 @@
 #ifndef ALEVEL_H
 #define ALEVEL_H
 
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <string>
