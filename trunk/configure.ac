@@ -2,7 +2,7 @@
 #                                                                             #
 # Source file for 'autoconf' program generating 'configure' script            #
 #                                                                             #
-# library version: 0.5.0                                                      #
+# library version: 0.5.1                                                      #
 #                                                                             #
 # (C) Pavel Stupka 2005                                                       #
 #                                                                             #
