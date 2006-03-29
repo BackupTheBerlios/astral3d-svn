@@ -23,18 +23,18 @@
 #ifndef ACONSOLE_H
 #define ACONSOLE_H
 
-#include <cstdarg>
-#include <cstring>
-#include <cctype>
-#include <string>
-#include <sstream>
-
 #ifdef WIN32
     #include <windows.h>
     #include <SDL.h>
 #else
     #include "SDL.h"
 #endif
+
+#include <cstdarg>
+#include <cstring>
+#include <cctype>
+#include <string>
+#include <sstream>
 
 #include "atext.h"
 #include "atexture.h"

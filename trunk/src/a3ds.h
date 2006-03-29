@@ -31,6 +31,13 @@
 #ifndef A3DS_H
 #define A3DS_H
 
+#ifdef WIN32
+    #include <windows.h>
+    #include <SDL.h>
+#else
+    #include "SDL.h"
+#endif
+
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
@@ -40,13 +47,6 @@
 #include <vector>
 #include <GL/gl.h>
 #include <GL/glu.h>
-
-#ifdef WIN32
-    #include <windows.h>
-    #include <SDL.h>
-#else
-    #include "SDL.h"
-#endif
 
 #include "aerror.h"
 

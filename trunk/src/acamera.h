@@ -23,18 +23,18 @@
 #ifndef ACAMERA_H
 #define ACAMERA_H
 
-#include <iostream>
-#include <sstream>
-#include <cmath>
-#include <GL/gl.h>
-#include <GL/glu.h>
-
 #ifdef WIN32
     #include <windows.h>
     #include <SDL.h>
 #else
     #include "SDL.h"
 #endif
+
+#include <iostream>
+#include <sstream>
+#include <cmath>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "avector.h"
 #include "aabstract.h"

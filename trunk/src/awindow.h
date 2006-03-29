@@ -24,6 +24,13 @@
 #ifndef AWINDOW_H
 #define AWINDOW_H
 
+#ifdef WIN32
+    #include <windows.h>
+    #include <SDL.h>
+#else
+    #include "SDL.h"
+#endif
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <iostream>
@@ -32,13 +39,6 @@
 
 #include "aconsole.h"
 #include "aerror.h"
-
-#ifdef WIN32
-    #include <windows.h>
-    #include <SDL.h>
-#else
-    #include "SDL.h"
-#endif
 
 /**
  * @namespace astral3d Astral3D namespace.

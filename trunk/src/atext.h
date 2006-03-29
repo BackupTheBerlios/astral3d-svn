@@ -23,6 +23,13 @@
 #ifndef ATEXT_H
 #define ATEXT_H
 
+#ifdef WIN32
+    #include <windows.h>
+    #include <SDL.h>
+#else
+    #include "SDL.h"
+#endif
+
 #include <GL/gl.h>
 #include <string>
 #include <iostream>
@@ -35,13 +42,6 @@
 #include "atexture.h"
 #include "aerror.h"
 #include "aexceptions.h"
-
-#ifdef WIN32
-    #include <windows.h>
-    #include <SDL.h>
-#else
-    #include "SDL.h"
-#endif
 
 /**
  * @namespace astral3d Astral3D namespace.

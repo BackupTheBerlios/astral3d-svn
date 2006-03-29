@@ -23,14 +23,6 @@
 #ifndef ATEXTURE_H
 #define ATEXTURE_H
 
-#include <cstring>
-#include <cctype>
-#include <sstream>
-#include <GL/gl.h>
-#include <GL/glu.h>
-
-#include "aerror.h"
-
 #ifdef WIN32
     #include <windows.h>
     #include <SDL.h>
@@ -39,6 +31,14 @@
     #include "SDL.h"
     #include "SDL_image.h"
 #endif
+
+#include <cstring>
+#include <cctype>
+#include <sstream>
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+#include "aerror.h"
 
 /**
  * @namespace astral3d Astral3D namespace.

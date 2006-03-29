@@ -31,6 +31,13 @@
 #ifndef A3DSMODEL_H
 #define A3DSMODEL_H
 
+#ifdef WIN32
+    #include <windows.h>
+    #include <SDL.h>
+#else
+    #include "SDL.h"
+#endif
+
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -47,13 +54,6 @@
 #include "aerror.h"
 #include "aabstract.h"
 #include "aexceptions.h"
-
-#ifdef WIN32
-    #include <windows.h>
-    #include <SDL.h>
-#else
-    #include "SDL.h"
-#endif
 
 /**
  * @namespace astral3d Astral3D namespace.

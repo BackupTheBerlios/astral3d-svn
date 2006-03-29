@@ -23,9 +23,6 @@
 #ifndef ASURFACE_H
 #define ASURFACE_H
 
-#include <GL/gl.h>
-#include "awindow.h"
-
 #ifdef WIN32
     #include <windows.h>
     #include <SDL.h>
@@ -34,6 +31,9 @@
     #include "SDL.h"
     #include "SDL_image.h"
 #endif
+
+#include <GL/gl.h>
+#include "awindow.h"
 
 /**
  * @namespace astral3d Astral3D namespace.
