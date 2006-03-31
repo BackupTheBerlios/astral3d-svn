@@ -1,0 +1,10 @@
+---------------------------
+Changes to the next version
+---------------------------
+
+Last released version: 0.5.1
+
+list of changes:
+----------------
+
+- added method 'applyMatrix' to 'ALevel' class
