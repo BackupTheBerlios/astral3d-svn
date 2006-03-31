@@ -1150,3 +1150,18 @@ bool ALevel::createLists()
 
     return true;
 }
+
+//-----------------------------------------------------------------------------
+// applies the OpenGL matrix to the level
+//-----------------------------------------------------------------------------
+
+void ALevel::applyMatrix(double mat[16])
+{
+    for (GLuint p = 0; p < numOfTriangles; p++)
+    {
+        triangles[p].a.applyMatrix(mat);
+        triangles[p].b.applyMatrix(mat);
+        triangles[p].c.applyMatrix(mat);
+        triangles[p].normal.applyMatrix(mat);
+    }
+}

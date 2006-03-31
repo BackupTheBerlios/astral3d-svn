@@ -313,6 +313,13 @@ class ALevel : public Level
          * @throw AException
          */
         ALevel *buildFromModel(Model3D *model);
+
+        /**
+         * Applies the OpenGL matrix.
+         * This method applies the OpenGL matrix to the level.
+         * @param mat OpenGL matrix to be applied
+         */
+        void applyMatrix(double mat[16]);
 };
 
 //-----------------------------------------------------------------------------
